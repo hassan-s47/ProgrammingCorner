@@ -1,0 +1,336 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Sign Up - Programming Corner</title>
+  <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{% static 'Application/login.css' %}">
+</head>
+<style>
+  .container {
+  display: flex;
+  flex-direction: column;
+  max-width: 45rem;
+}
+
+.containerDisabled {
+  opacity: 0.5;
+}
+
+
+.loginForm {
+  text-align: left;
+  
+  
+}
+label {
+    font-size: 14px !important;
+  }
+.formGroups {
+  width: 100%;
+}
+
+.formGroup {
+  margin-bottom: 10px;
+}
+
+.forgotContainer {
+  position: relative;
+  width: 100%;
+}
+
+.forgotPassword {
+  margin-bottom: 1rem;
+  color:#3b7dfa;;
+  
+}
+
+.submitButton {
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.submitButtonSmall {
+  margin: 0;
+}
+.basicBtn {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  font-family: inherit;
+  font: inherit;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  line-height: normal;
+}
+
+.btn-brand-purple__3JIxHxx4KYF2OVbx8Jg6mb {
+    color: #fff;
+    background-color: #3b7dfa;;
+    border-color: transparent;
+}
+.btn__12QbkfE0on4EJ7YrQMk-Yd {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    font-weight: 700;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    -webkit-user-select: none;
+    user-select: none;
+    padding: .375rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    min-width: 8rem;
+    transition: all .1s ease-in-out;
+}
+.large__DCjCgZGcqj-gHdZvTCDAP {
+    padding: .75rem 1.25rem;
+    font-size: 1.25rem;
+    line-height: 1.33333;
+    min-width: 10rem;
+}
+.submitButton__1qOSI1Xv43tR9edqYcaaX2 {
+    margin: 1rem 0;
+    width: 100%;
+}
+.Input__3PqIovOKhwXjggTB2PtamX {
+    font-size: 1rem;
+    text-indent: .8rem;
+    padding: .8rem 0;
+    outline: none;
+    width: 100%;
+    border: 1px solid #dddce0;
+    border-radius: 2px;
+    transition: border-color .15s;
+    font-weight: 400;
+    box-sizing: border-box;
+}
+.form-control {
+    display: block;
+    width: 100%;
+    height: 35px;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+input{
+  font-size:1rem;
+  font-size: 2rem;
+  width: 100%;
+  font-weight: normal;
+  box-sizing: border-box;
+	height: 50px;
+  padding: 12px 20px;
+  margin: 8px 0;
+}
+.pageHeading__2mrP4cs4unLZqotOcfhzPu {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 1rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #19191a;
+}
+h1 {
+    display: block;
+    font-size: 2em;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+    margin-left: 0px;
+    margin-right: 0px;
+    
+}
+.flex__3Bn8_xPP40dn7KC2irK0j0 {
+    display: flex;
+}
+
+
+.col__3V13k2XbofAGlwuLwbiW7 {
+    flex-direction: column;
+}
+.heading__1haJxk1mDgOA0YCyJ1ns1u {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+.outLink__NemdIMix9eFGvHnWKCeFK {
+    text-align: right;
+    display: block;
+    color :#3b7dfa;
+}
+.centeredd {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+ 
+  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.5);
+opacity:1
+}
+</style>
+
+<body>
+  <div > 
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="example2" >
+ <a class="navbar-brand" href="#">
+    <img src="{%static 'Application/pclogo.png' %}" width="50" height="35" class="d-inline-block align-top" alt="" loading="lazy">
+    Prgramming Corner
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav mr-auto" id="navbarText">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'home' %}">Home</a>
+      </li>
+     
+      
+    </ul>
+     <form class="form-inline">
+         <a href="{% url 'login' %}"><button type="button" class="btn btn-link" >Login</button></a>
+          </form>
+  </div>
+</nav>
+</div>
+  <main>
+    <div class="container-fluid ">
+      <div class="row ">
+        <div class="col-sm-6  login-section-wrapper">
+          <div class="container d-flex h-100 " >
+<div class="justify-content-center align-self-center ">
+  <div class="form-heading">
+  <h1 style="font-family: 'Open Sans', sans-serif;" class="pageHeading__2mrP4cs4unLZqotOcfhzPu ">Get Started for Free</h1>
+  </div>
+  <form class="loginForm" method="POST" action="" >
+  {% csrf_token %}
+  {% for message in messages %}
+							
+                                       
+                                      
+  <div class="alert alert-danger" role="alert" id='error-msg'>
+    <script>setTimeout(function(){
+      document.getElementById('error-msg').style.display = 'none';
+     }, 3000);</script>
+    {{message}}. Invalid data!username/email already exist.
+    </div>
+  
+
+  {% endfor %}
+    <div class="form-group">
+     <label for="username">Username</label>
+     <br>
+      {{ form.username}}
+    </div>
+    <div class="form-group">
+     <label for="username">Email</label>
+     <br>
+      {{ form.email}}
+    </div>
+    <div class="form-group" id="rolldiv">
+      <label for="username">Roll No</label>
+      {{ form.rollNo }}  
+    </div>
+     <div class="form-row">
+      <div class="col-md-6">
+    <div class="form-group">
+      <label for="username">Enter Password</label>
+      <br>
+      {{ form.password}}
+     
+      
+    </div>
+  </div>
+   <div class="col-md-6">
+    <div class="form-group">
+      <label for="username">Confirm Password</label>
+      <br>
+      <input type="password" class="form-control" id="password2 "name="Password2" placeholder="Re-enter Password">
+      
+    </div>
+
+ </div>
+</div>
+<div class="custom-control custom-checkbox">
+  <input type="checkbox" class="custom-control-input" id="customCheck" name="customCheck" onclick="showRoll()">
+  <label class="custom-control-label" for="customCheck">I am a Student.</label>
+</div>
+    <small class="forgotPassword" style="font-size:15px; line-height:24px;"><a href="#" style="color:#3b7dfa;">I forgot my password</a></small>
+    <button class="submitButton basicBtn btn-brand-purple__3JIxHxx4KYF2OVbx8Jg6mb btn__12QbkfE0on4EJ7YrQMk-Yd large__DCjCgZGcqj-gHdZvTCDAP submitButton__1qOSI1Xv43tR9edqYcaaX2">Register</button>
+  </form>
+  
+  
+   <a href="{% url 'login' %}" class="outLink__NemdIMix9eFGvHnWKCeFK">Already a member ? Click here to Login</a>
+
+</div>
+
+</div>
+        </div>
+        <div class="col-sm-6 px-0 d-none d-sm-block" >
+          <img src="{% static 'Application/login2.jpg' %}" alt="login image" class="login-img" >
+           <div class="centeredd"><h1 style="color:white; font-size:67px; line-height:76px;">Welcome to Programming Corner</h1></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script>
+   var x= document.getElementById("id_rollNo");
+   x.required= false
+   document.getElementById('rolldiv').style.display='none'
+    function showRoll()
+    {if (!(document.getElementById('customCheck').checked)) {
+       $("#rolldiv").slideUp();
+        document.getElementById('rolldiv').style.display='none'
+        document.getElementById("id_rollNo").required = false;
+
+    } else {
+      $("#rolldiv").slideDown();
+        document.getElementById('rolldiv').style.display='block'
+        document.getElementById("id_rollNo").required = true;
+    }
+    }
+
+function verify()
+{
+return false;
+pass1=document.getElementById('password_id').value;
+pass2=document.getElementById('password1').value;
+alert(pass1);
+return false;
+
+}
+
+  </script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+ 
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>

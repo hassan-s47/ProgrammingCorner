@@ -1,0 +1,41 @@
+body {
+   }
+
+.brand-wrapper {
+  padding-top: 7px;
+  padding-bottom: 8px; }
+  .brand-wrapper .logo {
+    height: 25px; }
+
+.login-section-wrapper {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  margin:0 auto;
+  padding: 68px 100px;
+  background-color: #fff; }
+  @media (max-width: 991px) {
+    .login-section-wrapper {
+      padding-left: 50px;
+      padding-right: 50px; } }
+  @media (max-width: 575px) {
+    .login-section-wrapper {
+      padding-top: 20px;
+      padding-bottom: 20px;
+      min-height: 100vh; } }
+
+
+    
+
+
+.login-img {
+  width: 100%;
+  height: 100vh;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: left;
+     object-position: left; }
+
+/*# sourceMappingURL=login.css.map */
