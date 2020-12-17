@@ -9,7 +9,7 @@ from django.contrib.auth import  login, logout
 from .models import Student
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import CustomUser, Student, Classroom ,student_Class,Teacher
+from .models import CustomUser, Student, LabRoom ,student_Class,Teacher
 from Application.EmailBackEnd import EmailBackEnd
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
@@ -33,12 +33,9 @@ def registerPage(request):
                 rollNo=form.cleaned_data["rollNo"]
                 try:
                     print("Here")
-                    user=CustomUser.objects.create_user(username=username,password=password,email=email,last_name="default",first_name="default",user_type=2)
-                    user.student.rollNo=rollNo
-                    
-                    print("Roll No :",user.student.rollNo)
-                        
-                    user.save()
+                    std=Student()
+                    std.register(username,password,email,rollNo)
+                    messages.success(request,"Student Registration Successfully")
                     return HttpResponseRedirect(reverse("login"))
                 
                 except:
@@ -58,9 +55,8 @@ def registerPage(request):
                 email=form.cleaned_data["email"]
                 password=form.cleaned_data["password"]
                 try:
-                    print("Here")
-                    user=CustomUser.objects.create_user(username=username,password=password,email=email,last_name="default",first_name="default",user_type=1)
-                    user.save()
+                    t=Teacher()
+                    t.register(username,email,password) 
                     messages.success(request,"Successfully Added Teacher",username)
                     return HttpResponseRedirect(reverse("login"))
                 
@@ -83,7 +79,10 @@ def loginPage(request):
     if request.method!="POST":
         return(render(request, 'Application/login.html', context))
     else:
-        user=EmailBackEnd.authenticate(request,username=request.POST.get("email"),password=request.POST.get("password"))
+        email=username=request.POST.get("email")
+        passwords=request.POST.get("password")
+        obj=CustomUser()
+        user=obj.dologin(EmailBackEnd,email,passwords,request)
         if user!=None:
             login(request,user)
             if user.user_type=="1": # if teacher redirect to teacher dashboard

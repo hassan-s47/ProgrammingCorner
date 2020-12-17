@@ -14,7 +14,7 @@ class Scrapper:
    #Standard user agent
    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
    #Url for website 
-   url = "https://www.codesdope.com/practice/cpp-"
+   url = "https://www.codesdope.com/practice/practice_cpp/"
    #Driver for scrapping
    driver = None
    def __init__(self):
@@ -38,11 +38,16 @@ class Scrapper:
 
    def getquestionlist(self,topic):
       try:
-         topic = topic.lower().strip()
-         topic = topic.replace(' ','-')
-         url = self.url+topic
+         self.driver.get(self.url)
+         results =  self.driver.find_elements_by_xpath("//*[@class='topic_name']")
+         
+         for res in results:
+            if topic == res.get_attribute ("innerText"):
+               topic = res
 
-         self.driver.get(url)
+
+         #navigating to the topic page
+         topic.click()
 
          results =  self.driver.find_elements_by_xpath("//*[@class='ques_title']")
          return results

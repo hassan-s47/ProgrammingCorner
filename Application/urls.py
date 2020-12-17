@@ -12,8 +12,8 @@ urlpatterns = [
     path('createClass',teacherView.createClass,name="createClass"),
     path('Studentdashboard/',studentView.StudentdashboardPage,name="Studentdashboard"),
     path('joinClass',studentView.joinClass,name="joinClass"),
-    path('chngeProfile',studentView.chngeProfile,name="chngeProfile"),
-    path('changePassword',studentView.changePassword,name="changePassword"),
+    path('chngeProfile',studentView.chngeProfileView,name="chngeProfile"),
+    path('changePassword',studentView.changePasswordView,name="changePassword"),
     path('TchngeProfile',teacherView.TchngeProfile,name="TchngeProfile"),
     path('ViewScrapper/',teacherView.ViewScrapper,name="ViewScrapper")
     

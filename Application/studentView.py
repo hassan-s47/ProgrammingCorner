@@ -2,7 +2,7 @@
 from .forms import CreateClassForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import Classroom,student_Class,CustomUser,Student,Teacher
+from .models import LabRoom,student_Class,CustomUser,Student,Teacher
 from django.shortcuts import render, redirect
 from django.contrib import messages
 import random, string
@@ -26,10 +26,7 @@ def StudentdashboardPage(request):
         Teacher_obbj=Teacher.objects.get(admin=corse.class_id.tutor)
         course_info[corse.class_id.className]['teacher_profile']=Teacher_obbj
         
-        # for key,value in course_info.items():
-            
-        #     for key2,value2 in value.items():
-        #         print (key2,value2)
+        
                 
         
     
@@ -48,47 +45,42 @@ def joinClass(request):
         classCode=request.POST.get("classCode")
         student_id=request.POST.get("student_id")
         try:
-            class_obj= Classroom.objects.get(classCode=classCode)
-            if class_obj!=None:
-                obj=student_Class(student_id=request.user, class_id=class_obj)
-                obj.save()
-
+            std=Student(student_id,classCode)
+            result=std.joinLabRoom()
+            if result==True:
+                messages.success(request, 'Class Code is Incorrect')
+                return HttpResponseRedirect(reverse("Studentdashboard"))
+  
+            else:
+                messages.info(request, 'Class Code is Incorrect')
                 return HttpResponseRedirect(reverse("Studentdashboard"))
         except:
             messages.info(request, 'Class Code is Incorrect')
 
             return HttpResponseRedirect(reverse("Studentdashboard"))
-
-        
-        
-        
-       
-        
+  
     else:
         return HttpResponseRedirect(reverse("Studentdashboard"))
-def chngeProfile(request):
+def chngeProfileView(request):
     if request.method=="POST":
         profile_pic=request.FILES['profile_pic']
         std_id=request.POST.get("std_id")
         fs=FileSystemStorage()
         filename=fs.save(profile_pic.name,profile_pic)
         profile_pic_url=fs.url(filename)
-        print( profile_pic_url)
-        student=Student.objects.get(admin=std_id)
-        student.profile_pic=profile_pic_url
-        student.save()
+        
+        std=Student()
+        std.changeProfile(std_id,profile_pic_url)
         return HttpResponseRedirect(reverse("Studentdashboard"))
     else:
         return HttpResponseRedirect(reverse("Studentdashboard"))
-def changePassword(request):
+def changePasswordView(request):
     if request.method=="POST":
        
         password=request.POST.get("password")
-        student_obj=CustomUser.objects.get(id=request.user.id)
-        password2 = make_password(password)
-        student_obj.password=password2
-        
-        student_obj.save()
+        std=Student()
+        std.changePassword(request.user.id,password)
+
         return HttpResponseRedirect(reverse("Studentdashboard"))
     else:
         return HttpResponseRedirect(reverse("Studentdashboard"))

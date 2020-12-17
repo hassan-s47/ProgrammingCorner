@@ -2,7 +2,7 @@
 from .forms import CreateClassForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import Classroom,Teacher,CustomUser
+from .models import LabRoom,Teacher,CustomUser
 from django.shortcuts import render, redirect
 from django.contrib import messages
 import random, string
@@ -12,11 +12,11 @@ def createClass(request):
     
     if request.method=="POST":
         className=request.POST.get("className")
-        classCode=''.join(random.choices(string.ascii_letters + string.digits, k=6))
+        
         tutor=request.user
         try:
-            Class=Classroom(className=className,tutor=tutor, classCode=classCode)
-            Class.save()
+            t=Teacher()
+            t.createClass(className,tutor)
             messages.success(request,"Successfully Added Class With Class Code : " + classCode)
             return HttpResponseRedirect(reverse("dashboard"))
         except:
@@ -32,17 +32,15 @@ def TchngeProfile(request):
         fs=FileSystemStorage()
         filename=fs.save(profile_pic.name,profile_pic)
         profile_pic_url=fs.url(filename)
-        print( profile_pic_url)
-        student=Teacher.objects.get(admin=std_id)
-        student.profile_pic=profile_pic_url
-        student.save()
+        t=Teacher()
+        t.changeProfile(std_id,profile_pic_url)
         return HttpResponseRedirect(reverse("dashboard"))
     else:
         return HttpResponseRedirect(reverse("dashboard")) 
 def dashboardPage(request):
     student_obj=CustomUser.objects.get(id=request.user.id)
     student_obbj=Teacher.objects.get(admin=student_obj)
-    context = {'Classroom' : Classroom.objects.filter(tutor=request.user),'student_obj':student_obbj}
+    context = {'LabRoom' : LabRoom.objects.filter(tutor=request.user),'student_obj':student_obbj}
     return(render(request, 'Application/dashboard.html', context))
 def ViewScrapper(request):
     context={}
@@ -52,14 +50,13 @@ def ViewScrapper(request):
         
         sc = Scrapper()
 
-        results = sc.getquestionlist(topicname)
-        questionlist = []
+        results = sc.getquestionlist("Loops")
+        print(results)
         if results is not None:
 
-            for res in results:
-                questionlist.append(res.get_attribute ("innerText"))
-
-        context = {'questionlist': questionlist}             
+            for i,res in enumerate(results):
+                print (i,res.get_attribute ("innerText"),"\n\n")
+                            
         sc.driver.quit()
         return(render(request, 'Application/scraperView.html', context))
 
