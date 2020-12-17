@@ -1,6 +1,4 @@
 
-# install the following packages: pip install bs4 selenium webdriver_manager
-
 #importing libraries
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -19,7 +17,7 @@ class Scrapper:
    driver = None
    def __init__(self):
       #initializing options
-      self.options.headless = False
+      self.options.headless = True
       self.options.add_argument(f'user-agent={self.user_agent}')
       self.options.add_argument("--window-size=1920,1080")
       self.options.add_argument('--ignore-certificate-errors')
@@ -54,5 +52,3 @@ class Scrapper:
       
       except:
          return None
-
-#Initialization of Scrapper

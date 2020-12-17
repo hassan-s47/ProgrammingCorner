@@ -6,6 +6,7 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
+import random, string
 
 User._meta.get_field('email')._unique = True
 class CustomUser(AbstractUser):
@@ -54,8 +55,9 @@ class Student(models.Model):
     def joinLabRoom(self,userid,classCode):
 
         class_obj= LabRoom.objects.get(classCode=classCode)
+        student_obj=CustomUser.objects.get(id=userid)
         if class_obj!=None:
-            obj=student_Class(student_id=userid, class_id=class_obj)
+            obj=student_Class(student_id=student_obj, class_id=class_obj)
             obj.save()
             return True
         else:
@@ -78,6 +80,8 @@ class Teacher(models.Model):
         classCode=''.join(random.choices(string.ascii_letters + string.digits, k=6))
         Class=LabRoom(className=className,tutor=userid, classCode=classCode)
         Class.save()
+        return classCode
+
     def changeProfile(self,userid,new_url):
         tech=Teacher.objects.get(admin=userid)
         tech.profile_pic=new_url

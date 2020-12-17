@@ -16,7 +16,7 @@ def createClass(request):
         tutor=request.user
         try:
             t=Teacher()
-            t.createClass(className,tutor)
+            classCode = t.createClass(className,tutor)
             messages.success(request,"Successfully Added Class With Class Code : " + classCode)
             return HttpResponseRedirect(reverse("dashboard"))
         except:
@@ -40,7 +40,7 @@ def TchngeProfile(request):
 def dashboardPage(request):
     student_obj=CustomUser.objects.get(id=request.user.id)
     student_obbj=Teacher.objects.get(admin=student_obj)
-    context = {'LabRoom' : LabRoom.objects.filter(tutor=request.user),'student_obj':student_obbj}
+    context = {'Classroom' : LabRoom.objects.filter(tutor=request.user),'student_obj':student_obbj}
     return(render(request, 'Application/dashboard.html', context))
 def ViewScrapper(request):
     context={}
@@ -51,13 +51,14 @@ def ViewScrapper(request):
         sc = Scrapper()
 
         results = sc.getquestionlist("Loops")
-        print(results)
+        questionlist = []
         if results is not None:
 
-            for i,res in enumerate(results):
-                print (i,res.get_attribute ("innerText"),"\n\n")
+            for res in results:
+                questionlist.append(res.get_attribute ("innerText"))
                             
         sc.driver.quit()
+        context = {'questionlist': questionlist}   
         return(render(request, 'Application/scraperView.html', context))
 
    

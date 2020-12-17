@@ -12,7 +12,7 @@ from django.contrib.auth.hashers import make_password
 def StudentdashboardPage(request):
     total_courses=student_Class.objects.filter(student_id=request.user)
     course_info={}
-    i='0';
+    i='0'
     for corse in total_courses:
         
         course_info[corse.class_id.className]={}
@@ -45,10 +45,10 @@ def joinClass(request):
         classCode=request.POST.get("classCode")
         student_id=request.POST.get("student_id")
         try:
-            std=Student(student_id,classCode)
-            result=std.joinLabRoom()
+            std=Student()
+            result=std.joinLabRoom(student_id,classCode)
             if result==True:
-                messages.success(request, 'Class Code is Incorrect')
+                messages.success(request, 'Class Code is Correct')
                 return HttpResponseRedirect(reverse("Studentdashboard"))
   
             else:
