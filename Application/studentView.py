@@ -40,20 +40,19 @@ def JoinClass(request):
         class_obj=None
         classCode=request.POST.get("classCode")
         student_id=request.POST.get("student_id")
-        
-        std=Student()
-        result=std.joinLabRoom(student_id,classCode)
-        if result
-        messages.success(request, 'Class Code is Incorrect')
-        return HttpResponseRedirect(reverse("Studentdashboard"))
-  
-            
-                # messages.info(request, 'Class Code is Incorrect')
-                # return HttpResponseRedirect(reverse("Studentdashboard"))
-        
-            # messages.info(request, 'Class Code is Incorrect')
-
-            # return HttpResponseRedirect(reverse("Studentdashboard"))
+        try:
+            std=Student()
+            result=std.joinLabRoom(student_id,classCode)
+            if result==True:
+                messages.success(request, 'Class Joined Successfully')
+                return HttpResponseRedirect(reverse("Studentdashboard"))
+            else:
+                messages.info(request, 'Class Code is Incorrect')
+                return HttpResponseRedirect(reverse("Studentdashboard"))
+        except:
+            messages.info(request, 'Class Code is Incorrect')
+            return HttpResponseRedirect(reverse("Studentdashboard"))
+    
   
     else:
         return HttpResponseRedirect(reverse("Studentdashboard"))
