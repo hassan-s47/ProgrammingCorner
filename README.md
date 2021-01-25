@@ -1,3 +1,3 @@
 # ProgrammingCorner
 Introduction
-This is a Final Year project like VPL (Virtual Programming Lab.
+This is a Final Year project like VPL (Virtual Programming Lab).
