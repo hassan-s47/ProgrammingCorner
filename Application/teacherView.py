@@ -44,6 +44,7 @@ def RemoveClass(request,id):
     t=Teacher()
     t.removeLab(id)
     return HttpResponseRedirect(reverse("dashboard"))
+    
 def ViewScrapper(request):
     context={}
     if request.method=="POST":
@@ -53,13 +54,14 @@ def ViewScrapper(request):
         sc = Scrapper()
 
         results = sc.getquestionlist("Loops")
-        print(results)
+        questionlist = []
         if results is not None:
 
-            for i,res in enumerate(results):
-                print (i,res.get_attribute ("innerText"),"\n\n")
+            for res in results:
+                questionlist.append(res.get_attribute ("innerText"))
                             
         sc.driver.quit()
+        context = {'questionlist': questionlist}   
         return(render(request, 'Application/scraperView.html', context))
 
    
