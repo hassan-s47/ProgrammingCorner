@@ -104,4 +104,10 @@ def LogoutUser(request):
     logout(request) #django builtin logout function
     return(redirect('login'))
 
+def courseDetails(request):
+    return(render(request,'Application/course.html'))
+
+def createAssessment(request):
+    return(render(request,'Application/createAssignment.html'))
+
 

@@ -5,6 +5,8 @@ from ProgrammingCorner import settings
 urlpatterns = [
     path('', views.homePage, name='home'),
     path('register/', views.RegisterPage, name='register'),
+    path('course/', views.courseDetails, name='course'),
+    path('createAssessment/', views.createAssessment, name='createAssessment'),
     path('login/', views.LoginPage, name='login'),
     path('logout/', views.LogoutUser, name='logout'),
     path('dashboard/', teacherView.DashboardPage, name='dashboard'),

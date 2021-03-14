@@ -1,0 +1,199 @@
+{% extends 'Application/base.html' %}
+{% block title %}
+Create Assessment
+{% endblock %}
+
+{% block content %}
+
+<div class="ed_transprentbg ed_toppadder80 ed_bottompadder80">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="ed_heading_top">
+					<h3>Create Assessment</h3>
+				</div>
+			</div>
+            <form action="" method="post">
+			<div class="ed_contact_form ed_toppadder60">
+				<div class="col-lg-6 col-md-6 col-sm-12">
+				<div class="form-group">
+                    <label for="course">Course</label>
+				<select name="courseId" class="form-control" id="courseId" required>
+                    <option selected>Select Course</option>
+                    <option>ITC</option>
+
+                </select>
+				</div>
+				
+				<div class="form-group">
+                    <label for="Start-Date">Start Date</label>
+					<input type="datetime-local" id="startDate" class="form-control" required>
+				</div>
+                <div class="form-group">
+                    <label for="due-Date">Due Date</label>
+					<input type="datetime-local" id="dueDate" class="form-control" required>
+				</div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" id="title" class="form-control" required  placeholder="Enter title">
+                    </div>
+                    
+				<div class="form-group">
+				<label for="description">Description</label>
+                    <textarea id="msg" class="form-control" rows="5" placeholder="Description if any..." required></textarea>
+				</div>
+
+
+				<!-- <button id="ed_submit" class="btn ed_btn ed_orange pull-right">Save</button> -->
+				<p id="err"></p>
+				</div>
+			</div>
+            </form>
+		</div>
+        <div class="row">
+            <div class="col-md-6">
+                <button class=" btn ed_btn btn btn-warning btn-lg btn-block" data-toggle="modal" data-target=".bd-example-modal-lg">Add Question</button>
+            </div>
+            <div class="col-md-6">
+                <button class="btn ed_btn btn btn-info btn-lg btn-block"> Search Question</button>
+            </div>
+        </div>
+        <div class="ed_time_executor ed_toppadder40">
+            <ul>
+                <li><a href="#">Questions</a> <span></span></li>
+                <li><a class="collapsed" data-toggle="collapse" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">Question 1 <span><i class="fa fa-plus"></i></span></a></li>
+                <div id="collapseSix" class="collapse" role="tabpanel" aria-labelledby="headingSix" data-parent="#accordion">
+                    <div class="card-body" style="padding:40px; ">
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                    </div>
+                    </div>
+                    <li><a class="collapsed" data-toggle="collapse" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">Question 1 <span><i class="fa fa-plus"></i></span></a></li>
+                    <li><a class="collapsed" data-toggle="collapse" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">Question 2 <span><i class="fa fa-plus"></i></span></a></li>
+                    <li><a class="collapsed" data-toggle="collapse" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">Question 3 <span><i class="fa fa-plus"></i></span></a></li>
+                    <li><a class="collapsed" data-toggle="collapse" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">Question 4 <span><i class="fa fa-plus"></i></span></a></li>
+                
+            </ul>
+            
+        </div>
+     
+</div>
+
+
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content" >
+        
+        
+            <form action="" method="post" >
+                <h3 style="text-align:center"> Add Question</h3>
+			<div class="ed_contact_form ed_toppadder60">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <label for="statement">Statement</label>
+                            <textarea id="statement" name="statement"class="form-control" rows="5" placeholder="Question Description here..." required></textarea>
+                        </div>
+        
+                </div>
+				<div class="col-lg-6 col-md-6 col-sm-12">
+                    
+				<div class="form-group">
+                    <label for="course">Input</label>
+                    <input type="number" id="testInput" class="form-control" placeholder="Enter Test CaseInput" required>
+				</div>
+				
+               
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="title">Expected Output</label>
+                        <input type="text" id="testOutput" class="form-control" required  placeholder="Enter testcase output">
+                    </div>
+                    
+				
+
+				<!-- <button id="ed_submit" class="btn ed_btn ed_orange pull-right">Save</button> -->
+			
+				</div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    
+                        <div class="form-group">
+                            <label for="title">Assign Weightage</label>
+                            <input type="number" id="weight" class="form-control" required  placeholder="Enter title">
+                        </div>
+                
+			</div>
+            
+            <center>
+            	<button id="ed_submit" class="btn ed_btn ed_orange">Add</button>
+                <button  id="update_btn" class="btn ed_btn btn-success">Update</button>
+            </center>
+            <div class="col-md-12">
+            <h3>Test Cases</h3>
+            <table class="table table-bordered" id="testCase">
+                <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Input</th>
+                      <th scope="col">Output</th>
+                        
+                        <th scope="col">Delete</th>
+                    </tr>
+                  </thead>
+                <tbody>
+                    <tr class="cart-subtotal">
+                       <td>1</td>
+                        <td>0</td>
+                        <td>1</td>
+                        
+                        <td><a href=""><i class="fa fa-trash"></i></a>
+                        </td>
+
+                    </tr>
+                    <tr class="order-total">
+                        <td>2</td>
+                        <td>5</td>
+                        <td>125</td>
+                       
+                        <td><a href=""><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+            </form>
+  
+
+		</div>
+
+
+
+      </div>
+    </div>
+  </div>
+  <script>
+      document.getElementById('update_btn').style.display="none";
+        var table=document.getElementById('testCase'),rIndex;
+        console.log(table);
+        for (var i = 1; i < table.rows.length; i++) {
+        var len=table.rows[i].cells.length;
+        len=len-1;
+
+        table.rows[i]. ondblclick=function()
+        {
+        rIndex=this.rowIndex;
+        console.log(rIndex);
+        document.getElementById('testInput').value=this.cells[1].innerHTML.trim();
+        document.getElementById('testOutput').value=this.cells[2].innerHTML.trim();
+        document.getElementById('update_btn').style.display="inline-block";
+        }}
+
+  </script>
+
+  
+
+
+{% endblock %}
