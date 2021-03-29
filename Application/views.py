@@ -110,4 +110,12 @@ def courseDetails(request):
 def createAssessment(request):
     return(render(request,'Application/createAssignment.html'))
 
+def viewAssessment(request):
+    #get assessment from that teacher and display here
+    return(render(request,'Application/manageAssessments.html'))
+
+def manaegQuestions(request):
+   
+    return(render(request,'Application/addQuestion.html'))
+
 

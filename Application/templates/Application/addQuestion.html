@@ -1,0 +1,231 @@
+{% extends 'Application/base.html' %}
+{% block title %}
+Manaeg Assessment
+{% endblock %}
+{% block banner %} Manage Questions{% endblock %}
+{% block content %}
+
+<div class="ed_transprentbg ed_toppadder80 ed_bottompadder80">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="ed_heading_top">
+					<h3>Manage Questions</h3>
+				</div>
+			</div>
+            <h4 class="widget-title">Search Questions</h4>
+            <form action="" method="post">
+                <div class="ed_contact_form ed_toppadder60">
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                     </div>   
+                     <div class="col-lg-8 col-md-8 col-sm-8">
+                     
+                   
+                    <div class="row">
+                        <div class="ed_newsletter_section_form">
+                           
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    <select name="topic" class="form-control" id="topic" required>
+                                        <option value="Variables and literals">Variables and literals</option>
+                                           <option value="Operators">Operators</option>
+                                           <option value="Decide if/else"> if/else</option>
+                                           <option value="Loops">Loops</option>
+                                           <option value="Function">Function</option>
+                                           <option value="Pointers">Pointers</option>
+                                           <option value="Array">Array</option>
+                                           <option value="String">String</option>
+                                           <option value="Pre-processor">Pre-processor </option>
+                                           <option value="Structure">Structure</option>
+                                           <option value="Classes and objects">Classes and objects</option>
+                                           <option value="Subclass">Subclass</option>
+                                           <option value="Constructor overloading">Constructor overloading</option>
+                                           <option value="Array of objects">Array of objects</option>
+                                           <option value="Multiple inheritance ">Multiple inheritance </option>
+                                           
+                                                           </select>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <button class="btn ed_btn ed_green">Search</button>
+                                </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+            
+            <form action="" method="post" >
+                {% csrf_token %}
+			<div class="ed_contact_form ed_toppadder60">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <label for="statement">Statement</label>
+                            <textarea id="statement" name="statement"class="form-control" rows="5" placeholder="Question Description here..." required></textarea>
+                        </div>
+        
+                </div>
+              
+				<div class="col-lg-6 col-md-6 col-sm-12">
+                    
+				<div class="form-group">
+                    <label for="course">Input</label>
+                    <textarea id="testCaseInput" name="testCaseInput" class="form-control" rows="5" placeholder="Enter TestCase Input" required></textarea>
+				</div>
+				
+               
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="title">Expected Output</label> <textarea id="testCaseOutput" name="testCaseOutput" class="form-control" rows="5" placeholder="Enter TestCase Output" required></textarea>
+                    </div>
+        
+			
+			
+            </div>
+            
+            
+            	<button type="button" class="btn ed_btn btn-info pull-right" onclick="addTestCase()">Add Test Case </button>
+               
+      
+            <div class="col-md-12">
+            <h3>Test Cases</h3>
+            <table class="table table-bordered" id="testCase">
+                <thead>
+                    <tr>
+                    
+                      <th scope="col">Input</th>
+                      <th scope="col">Output</th>
+                        
+                        <th scope="col">Delete</th>
+                    </tr>
+                  </thead>
+                <tbody>
+                    <tr class="cart-subtotal">
+                      
+                        <td>0</td>
+                        <td>1</td>
+                        
+                        <td><a href=""><i class="fa fa-trash"></i></a>
+                        </td>
+
+                    </tr>
+                    <tr class="order-total">
+                       
+                        <td>5</td>
+                        <td>125</td>
+                       
+                        <td><a onclick="tabelRow()"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <center>
+                <button id="ed_submit" class="btn ed_btn btn-success">Save <i class="fa fa-save"></i> </button>
+                
+            </center>
+        </div>
+      
+    </div>
+            </form>
+		</div>
+      
+      
+
+         <div class="ed_time_executor ed_toppadder40">
+            <ul>
+                <li><a href="#">Questions</a> <span></span></li>
+                </ul>
+         </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="woocommerce-checkout-payment">
+                <ul class="payment_methods methods">
+                    <li>
+                        <div class="ed_rate">
+                            <div class="custom-checkbox">
+                                <input type="radio" value="dbt" id="c1" name="checkout">
+                                <label for="c1"></label>
+                            </div>
+                        </div>
+                        Question 1 <span><a href="#" class="muted pull-right">Edit</a></span>| <span><a href="#" class="muted pull-right" style="padding-right:5px;">Delete</a></span>
+                        <div class="payment_box" data-period="dbt">
+                            <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="ed_rate">
+                            <div class="custom-checkbox">
+                                <input type="radio" value="cheque_payment" id="c2" name="checkout">
+                                <label for="c2"></label>
+                            </div>
+                        </div>
+                        Question 2
+                        <img src="images/cards.jpg" class="pull-right" alt="">
+                        <div class="payment_box" data-period="cheque_payment">
+                            <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="ed_rate">
+                            <div class="custom-checkbox">
+                                <input type="radio" value="credit_card" id="c3" name="checkout">
+                                <label for="c3"></label>
+                            </div>
+                        </div>
+                        Question 3
+                        <img src="images/paypal.jpg" class="pull-right" alt="">
+                        <div class="payment_box" data-period="credit_card">
+                            <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="ed_rate">
+                            <div class="custom-checkbox">
+                                <input type="radio" value="paypal" id="c4" name="checkout">
+                                <label for="c4"></label>
+                            </div>
+                        </div>
+                        Question 4
+                        <div class="payment_box" data-period="paypal">
+                            <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+     
+</div>
+
+
+
+
+  </div>
+ 
+
+<script>
+//     function tabelRow(){
+//         $('#testCase').find('tr').click( function(){
+            
+//         alert('You clicked row '+ ($(this).index()+1) );
+// });}
+    
+
+   function addTestCase(){
+
+    var inputTestcase = $('#testCaseInput').val();
+        var outputTestcase = $('#testCaseOutput').val();
+        if(inputTestcase=="" || outputTestcase=="")
+        {
+            swal("Warning!", "Please Enter both (Input and Output First)!");
+            return;
+        }
+       
+        var delete1 = '<a href="#"><i class="fa fa-trash"></i></a>';
+        var new_row = '<tr class="order-total"><td class="Input">' + inputTestcase + '</td><td class="Output">' + outputTestcase + '</td><td class="Delete">' + delete1 + '</td></tr>';
+        $("table tbody").append(new_row);
+        document.getElementById("testCaseInput").value ='';
+        document.getElementById("testCaseOutput").value ='';
+   
+   }
+
+    </script>
+{% endblock %}

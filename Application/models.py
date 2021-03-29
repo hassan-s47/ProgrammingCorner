@@ -112,18 +112,14 @@ class student_Class(models.Model):
 def create_user_profile(sender,instance,created,**kwargs):
     if created:
         if instance.user_type==2:
-
             Student.objects.create(admin=instance,rollNo="",profile_pic="http://placehold.it/263X263")
         if instance.user_type==1:
             Teacher.objects.create(admin=instance,profile_pic="http://placehold.it/263X263")
-        # if instance.user_type==3:
-        #     Students.objects.create(admin=instance,course_id=Courses.objects.get(id=1),session_start_year="2020-01-01",session_end_year="2021-01-01",address="",profile_pic="",gender="")
-
+       
 @receiver(post_save,sender=CustomUser)
 def save_user_profile(sender,instance,**kwargs):
     if instance.user_type==2:
         instance.student.save()
     if instance.user_type==1:
         instance.teacher.save()
-    # if instance.user_type==3:
-    #     instance.students.save()  
+   
