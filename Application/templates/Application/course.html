@@ -3,7 +3,7 @@
 Course Details
 {% endblock %}
 {% block banner %}
-ITC
+{{labdetail.className}}
 {% endblock %}
 
 {% block content %} 
@@ -19,19 +19,15 @@ ITC
 						<img src="http://placehold.it/806X387" alt="event image" />
 					</div>
 					<div class="ed_course_single_info">
-						<h2>Project Learning <span>£25</span></h2>
+						<h2>{{labdetail.className}} <span></span></h2>
 						<div class="ed_rating">
 							<div class="row">
 								<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
 									<div class="row">
 										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-											<div class="ed_stardiv">
-												<div class="star-rating"><span style="width:80%;"></span></div>
-											</div>
+											
 										</div>
-										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-											<span>(5 review)</span>
-										</div>
+										
 									</div>
 								</div>
 								<div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 pull-right text-right">
@@ -51,10 +47,7 @@ ITC
 								</div>
 							</div>
 							<div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 pull-right text-right">
-								<div class="ed_course_duration">
-								time duration: 75 days
-								<p>post graduation course</p>
-							</div>
+								
 							</div>
 						</div>
 					</div>
@@ -173,6 +166,7 @@ ITC
 												<div class="tab-content">
 													<div role="tabpanel" class="tab-pane active" id="upcoming">
 														<div class="ed_course_event">
+								
 															<h5>1. mobile capabilities</h5>
 															<p><span>orgnaiger :-</span> James Marco</p>
 															<p><span>held on :-</span> October 1 @ 7:30 Am - 9:00 Am</p>
@@ -214,7 +208,7 @@ ITC
 						</div>
 					</div><!--tab End-->
 				</div>	
-				<div class="ed_time_executor ed_toppadder40">
+				<!-- <div class="ed_time_executor ed_toppadder40">
 					<ul>
 						<li><a href="course_lesson.html">lessons</a> <span>estimated time</span></li>
 						<li><a class="collapsed" data-toggle="collapse" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">development overview <span><i class="fa fa-plus"></i></span></a></li>
@@ -229,7 +223,7 @@ ITC
 						<li><a href="course_lesson.html">Javascript</a> <span>2Hourse 45 Minuts</span></li>
 					</ul>
                     
-				</div>
+				</div> -->
                 
 			</div>
             <div class="col-md-1 col-lg-1">
