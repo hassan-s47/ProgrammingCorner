@@ -20,7 +20,7 @@ from .compiler import Compiler
 
 import json
 
-@ensure_csrf_cookie
+# @ensure_csrf_cookie
 
 
 class BasicSampleFormView(FormView):
