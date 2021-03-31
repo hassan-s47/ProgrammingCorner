@@ -132,6 +132,9 @@ def LogoutUser(request):
 def courseDetails(request):
     return(render(request,'Application/course.html'))
 
+def courseDetailsStudent(request):
+    return(render(request, 'Application/courseStudent.html'))
+    
 def viewAssessment(request):
     #get assessment from that teacher and display here
     

@@ -28,6 +28,7 @@ urlpatterns = [
     path('ViewScrapper/',teacherView.ViewScrapper,name="ViewScrapper"),
     path('delete/<int:id>/',teacherView.RemoveClass,name='delete_class'),
     path('viewClass/<int:id>/',teacherView.viewClass,name='view_class'),
+    path('viewClassStudent/<int:id>/',studentView.viewClassStudent,name='view_class_student'),
     path('deleteQuestion/<int:id>/',teacherView.RemoveQuestion,name='delete_question'),
     path('editQuestion/<int:id>/',teacherView.editQuestion,name='edit_question'),
 
