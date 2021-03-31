@@ -17,10 +17,10 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic.edit import FormView
 from .forms import SampleForm
 from .compiler import Compiler
-
+from .compiler import Compiler
 import json
 
-@ensure_csrf_cookie
+
 
 
 class BasicSampleFormView(FormView):
@@ -36,7 +36,7 @@ def getResponse(request):
     data=request.POST.get("code")
     inp  = request.POST.get("input")
     print(data,inp)
-    
+    compiler=Compiler()
     return (render(request, 'Application/home.html'))
 
 def homePage(request):

@@ -31,5 +31,6 @@ urlpatterns = [
     path('editQuestion/<int:id>/',teacherView.editQuestion,name='edit_question'),
      path('updateQuestion/',teacherView.updateQuestion,name='update_question'),
      path('form/', BasicSampleFormView.as_view(template_name="Application/form.html"), name='codemirror-form'),
-    
+    path('response/',views.getResponse, name='response'),
+
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

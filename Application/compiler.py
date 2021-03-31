@@ -21,7 +21,7 @@ class Compiler:
         self.run(code_file,exe_file,in_file)
             
 
-    def run(cpp_file, exe_file,in_file):
+    def run(self,cpp_file, exe_file,in_file):
         compile_str = "g++ " + shlex.quote(cpp_file) + " -o " + shlex.quote(exe_file)
         proc = subprocess.Popen(compile_str, stdout = subprocess.PIPE, stderr=subprocess.PIPE, shell = True)
         (out,err) = proc.communicate(timeout=15)
