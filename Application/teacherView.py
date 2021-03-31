@@ -163,5 +163,6 @@ def editQuestion(request,id):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 def viewClass(request,id):
     assessments=Assessment.objects.all().filter(course_id=id)
+    students_obj=student_Class.objects.all().filter(class_id=id)
     lab_obj=LabRoom.objects.get(id=id)
-    return (render(request,'Application/course.html',{"assessments":assessments,"labdetail":lab_obj}))
+    return (render(request,'Application/course.html',{"assessments":assessments,"labdetail":lab_obj,"students":students_obj}))
