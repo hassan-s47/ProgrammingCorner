@@ -33,7 +33,7 @@ Course Details
 								<div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 pull-right text-right">
 									<div class="ed_views">
 										<i class="fa fa-users"></i>
-										<span>35 students</span>
+										<span>{{count}} students</span>
 									</div>
 								</div>
 							</div>
@@ -76,8 +76,8 @@ Course Details
 								<div role="tabpanel" class="tab-pane" id="students">
 									<div class="ed_inner_dashboard_info">
 										<div class="ed_course_single_info">
-											<h2>total students :- <span>20</span></h2>
-											<h5>10 students recently join this course</h5>
+											<h2>total students :- <span>{{count}}</span></h2>
+											
 											{% for item in students %}
 											<div class="ed_add_students">
 												<img src="http://placehold.it/50X50" alt="">
@@ -86,65 +86,10 @@ Course Details
 											</div> 
 
 											{% endfor %}
-											<div class="ed_add_students">
-												<img src="http://placehold.it/50X50" alt=""> 
-												<span>baldwin dallas</span>
-												<p>new student</p>
-											</div>
-											<div class="ed_add_students">
-												<img src="http://placehold.it/50X50" alt="">
-												<span>carney Tate</span>
-												<p>new student</p>
-											</div>
-											<div class="ed_add_students">
-												<img src="http://placehold.it/50X50" alt=""> 
-												<span>dwight easton</span>
-												<p>new student</p>
-											</div>
-											<div class="ed_add_students">
-												<img src="http://placehold.it/50X50" alt=""> 
-												<span>elbert wade</span>
-												<p>new student</p>
-											</div>
-											<div class="ed_add_students">
-												<img src="http://placehold.it/50X50" alt=""> 
-												<span>hailey kyler</span>
-												<p>new student</p>
-											</div>
-											<div class="ed_add_students">
-												<img src="http://placehold.it/50X50" alt=""> 
-												<span>graham ryder</span>
-												<p>new student</p>
-											</div>
-											<div class="ed_add_students">
-												<img src="http://placehold.it/50X50" alt=""> 
-												<span>jaxon keegan</span>
-												<p>new student</p>
-											</div>
-											<div class="ed_add_students">
-												<img src="http://placehold.it/50X50" alt=""> 
-												<span>kealy sage</span>
-												<p>new student</p>
-											</div>
-											<div class="ed_add_students">
-												<img src="http://placehold.it/50X50" alt=""> 
-												<span>lavern gunner</span>
-												<p>new student</p>
-											</div>
-											<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-												<div class="row">
-													<div class="ed_blog_bottom_pagination ed_toppadder40">
-													<nav>
-														<ul class="pagination">
-															<li><a href="#">1</a></li>
-															<li><a href="#">2</a></li>
-															<li><a href="#">3</a></li>
-															<li class="active"><a href="#">Next <span class="sr-only">(current)</span></a></li>
-														</ul>
-													</nav>
-													</div>
-												</div>
-											</div> -->
+										
+											
+											
+											
 										</div>
 									</div>
 								</div>
@@ -152,8 +97,14 @@ Course Details
 									<div class="ed_course_tabconetent">
 										<h2>course announcement</h2>
 										<h5>some recent news about this course....</h5>
-										<p> I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. </p>
-									</div>
+										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vehicula mauris ac facilisis congue. Fusce sem enim, rhoncus volutpat condimentum ac, placerat semper ligula. Suspendisse in viverra justo, eu placerat urna. Vestibulum blandit diam suscipit nibh mattis ullamcorper. Nullam a condimentum nulla, ut facilisis enim. Aliquam sagittis ipsum ex, sed luctus augue venenatis ut. Fusce at rutrum tellus, ac elementum neque. In nec velit orci. Etiam purus felis, pellentesque sit amet tincidunt at, iaculis quis erat. Morbi imperdiet sodales sapien nec rhoncus. Donec placerat mi et libero iaculis, id maximus est vestibulum. Etiam augue augue, auctor at ornare eget, porta ac nisl. Aliquam et mattis dolor, et aliquet ligula.</p>
+										
+										<p>Nam id ligula tristique, porta dolor ac, pretium leo. Maecenas scelerisque vulputate dapibus. Quisque sodales tincidunt sapien, eu consequat erat tempus et. Nullam ipsum est, interdum quis posuere sed, imperdiet quis nisi. pulvinar est at, commodo mauris. Nunc in mollis erat. Integer aliquet orci non auctor pretium.Proin quis justo est. Vestibulum imperdiet leo sit amet tortor suscipit, id cursus ligula pharetra. Uctus ac eros a, faucibus iaculis quam. Nam non iaculis justo. Donec maximus varius velit.</p>
+							
+										<p>Sed ultricies posuere magna elementum laoreet. Suspendisse elementum sagittis nisl, id pellentesque purus auctor finibus. Donec elementum quam est, a condimentum diam tempor ac. Sed quis magna lobortis, pulvinar est at, commodo mauris. Nunc in mollis erat. Integer aliquet orci non auctor pretium. Pellentesque eu nisl augue. Curabitur vitae est ut sem luctus tristique. Suspendisse euismod sapien facilisis tellus aliquam pellentesque.</p>
+										
+										<p>Viverra justo, eu placerat urna. faucibus iaculis quam. Nam non iaculis justoVestibulum blandit diam suscipit nibh mattis ullamcorper. Nullam a condimentum nulla, ut facilisis enim. Aliquam sagittis ipsum ex, sed luctus augue venenatis ut. Fusce at rutrum tellus, ac elementum neque. In nec velit orci. Etiam purus felis, pellentesque sit amet tincidunt at, iaculis quis erat. Morbi imperdiet sodales sapien nec rhoncus. Donec placerat mi et libero iaculis, id maximus est</p>
+															</div>
 								</div>
 								<div role="tabpanel" class="tab-pane" id="events">
 									<div class="ed_course_single_info">
@@ -167,29 +118,37 @@ Course Details
 												</ul>
 												<!-- Tab panes -->
 												<div class="tab-content">
-													{% for item in assessments %}
 													<div role="tabpanel" class="tab-pane active" id="upcoming">
+													
+													{% for item in assessments_up %}
 													
 														<div class="ed_course_event">
 								
-															<h5>1. <a href="/addQuestion?id={{item.id}}">{{item.name}}</a></h5>
+															<h5><b><a href="/addQuestion?id={{item.id}}">{{item.name}}</a> </b><span><a href="{% url 'edit_assessment' item.id %}" class="muted pull-right">Edit</a></span><span><a href="{% url 'edit_assessment' item.id %}" class="muted pull-right" style="padding-right:5px;">Delete</a></span></h5>
+															
 															<p><span>Start Date :-</span> {{item.start_date}}</p>
 															<p><span>Due on :-</span> {{item.due_date}}</p>
-															<p><span>Description</span>{{item.description}}</p>
+															<p><span>Description:-</span>{{item.description}}</p>
 														</div>
 														
-													</div>
+													
 													{% endfor%}	
+												</div>
 													<div role="tabpanel" class="tab-pane" id="past">
-														<div class="ed_course_event">
-															<h5>1. JavaScript Campus.</h5>
-															<p><span>orgnaiger :-</span> Tina Fibonacci</p>
-															<p><span>held on :-</span>September 20 @ 7:30 Pm - 12:00 Am</p>
-															<p>avoids pleasure itself, because it is pleasure,  expound the actual teachings of the great explorer of the truth will give you a complete account of the system, and No one rejects, dislikes.</p>
-														</div>
+													{% for item in assessments_pa %}
+													
+													<div class="ed_course_event">
+								
+														<h5><b><a href="/addQuestion?id={{item.id}}">{{item.name}}</a> </b><span><a href="{% url 'edit_assessment' item.id %}" class="muted pull-right">Edit</a></span><span><a href="{% url 'edit_assessment' item.id %}" class="muted pull-right" style="padding-right:5px;">Delete</a></span></h5>
+															
+														<p><span>Start Date :-</span> {{item.start_date}}</p>
+														<p><span>Due on :-</span> {{item.due_date}}</p>
+														<p><span>Description:-</span>{{item.description}}</p>
+													</div>
 														
-													</div>	
-																		
+													
+													{% endfor%}	
+												</div>					
 												</div>
 											</div>
 										</div><!--tab End-->

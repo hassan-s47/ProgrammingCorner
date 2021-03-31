@@ -35,8 +35,10 @@ def getResponse(request):
     data=request.POST.get("code")
     inp  = request.POST.get("input")
     print(data,inp)
-    compiler=Compiler()
-    return (render(request, 'Application/home.html'))
+    compiler=Compiler(data,inp)
+    output=compiler.run()
+    return HttpResponse(json.dumps({'output' : output}), content_type='application/json')
+
 
 def homePage(request):
    

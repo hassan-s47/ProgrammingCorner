@@ -13,7 +13,7 @@ from Application.EmailBackEnd import EmailBackEnd
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import ensure_csrf_cookie
-
+from datetime import datetime
 import json
 
 @ensure_csrf_cookie
@@ -161,8 +161,36 @@ def editQuestion(request,id):
         
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+def updateAssessment(request):
+    courseId=request.POST.get("courseId")
+    ass_id=request.POST.get("assessment_id")
+    name=request.POST.get("title")
+    startDate=request.POST.get("startDate")
+    dueDate=request.POST.get("dueDate")
+    description=request.POST.get("description")
+    assessment=Assessment()
+    assessment_id = assessment.updateAssessment(ass_id,courseId, name, startDate, dueDate, description)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def editAssessment(request,id):
+    lab = LabRoom.objects.all().filter(tutor=request.user.id)
+    if id!=None:
+        if request.method!="POST":
+            item=Assessment.objects.get(id=id)
+            return (render(request,'Application/editAssessment.html', {"Assessment":item,"assessment_id":id,"items":lab}))
+        else:
+            return redirect('/dashboard/')
+        
+        
+    else:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
 def viewClass(request,id):
-    assessments=Assessment.objects.all().filter(course_id=id)
+    now = datetime.now()
+    assessments=Assessment.objects.all().filter(course_id=id,due_date__gte = datetime.now())
+    assessments_pa=Assessment.objects.all().filter(course_id=id,due_date__lt = datetime.now())
+    print(assessments_pa)
     students_obj=student_Class.objects.all().filter(class_id=id)
+    no_of_student=len(students_obj)
     lab_obj=LabRoom.objects.get(id=id)
-    return (render(request,'Application/course.html',{"assessments":assessments,"labdetail":lab_obj,"students":students_obj}))
+    return (render(request,'Application/course.html',{"assessments_up":assessments,"count":no_of_student,"assessments_pa":assessments_pa,"labdetail":lab_obj,"students":students_obj}))

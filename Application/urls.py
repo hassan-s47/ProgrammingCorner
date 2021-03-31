@@ -11,6 +11,7 @@ urlpatterns = [
     path('register/', views.RegisterPage, name='register'),
     path('course/', views.courseDetails, name='course'),
     path('createAssessment/', teacherView.createAssessment, name='createAssessment'),
+     path('updateAssessment/', teacherView.updateAssessment, name='updateAssessment'),
     path('teacherAssessments/', views.viewAssessment, name='viewAssessment'),
      path('addQuestion/', teacherView.addQuestion, name='addQuestion'),
     path('manaegQuestions/', views.manaegQuestions, name='manaegQuestions'),
@@ -29,6 +30,9 @@ urlpatterns = [
     path('viewClass/<int:id>/',teacherView.viewClass,name='view_class'),
     path('deleteQuestion/<int:id>/',teacherView.RemoveQuestion,name='delete_question'),
     path('editQuestion/<int:id>/',teacherView.editQuestion,name='edit_question'),
+
+    path('editAssessment/<int:id>/',teacherView.editAssessment,name='edit_assessment'),
+    
      path('updateQuestion/',teacherView.updateQuestion,name='update_question'),
      path('form/', BasicSampleFormView.as_view(template_name="Application/form.html"), name='codemirror-form'),
     path('response/',views.getResponse, name='response'),

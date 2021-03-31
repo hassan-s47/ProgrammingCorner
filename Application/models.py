@@ -120,6 +120,14 @@ class Assessment(models.Model):
         assessment = Assessment(course_id=courseid, name=name, start_date=startDate, due_date=dueDate, description=description)
         assessment.save()
         return assessment.id
+    def updateAssessment(self,ass_id,course_id,name, startDate, dueDate, description):
+        obj=Assessment.objects.get(id=ass_id)
+        obj.course_id=course_id
+        obj.name=name
+        obj.start_date=startDate
+        obj.due_date=dueDate
+        obj.description=description
+        obj.save()
 
 
 class Question(models.Model):
