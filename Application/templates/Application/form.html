@@ -1,0 +1,86 @@
+{% extends 'Application/base.html' %}
+{% block title %}
+Create Assessment
+{% endblock %}
+
+{% block content %}
+
+{% load static %}
+{% load djangocodemirror_tags %}
+<div class="container">
+  <div class = "row">
+    <div class="col-md-8">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <form>
+          {% csrf_token %}
+          {{ form.as_p }}
+          <input type="submit" value = "Run" class="btn btn-primary" onclick='fun()'>
+      </form>
+      
+      {% codemirror_field_css_assets form.foo %}
+      {% codemirror_field_js_assets form.foo %}
+    </div>
+    <div class = "col-md-4">
+      <div>
+        <label for="Label">Input</label><br>
+        <textarea name="" id="code_input" cols="50" rows="10"></textarea>
+      </div>
+      <div>
+        <label for="Label">Output</label><br>
+        <textarea name="" id="code_output" cols="50" rows="10"></textarea>
+      </div>
+    </div>
+</div>
+
+    
+</div>
+
+<script>
+    
+    var foo_codemirror = CodeMirror.fromTextArea(
+        document.getElementById("id_foo"),
+        {
+            mode:"javascript",
+            lineNumbers:true,
+            styleActiveLine: true,
+            matchBrackets: true,
+            moveOnDrag:true,
+            viewportMargin:30,
+            theme : "codemirror.css",
+            extraKeys: {"Ctrl-Space": "autocomplete"},
+            addons: [
+            "CodeMirror/addon/edit/matchbrackets.js",
+            "CodeMirror/addon/hint/javascript-hint.js",
+            "CodeMirror/addon/hint/show-hint.js",
+            ],
+
+        }
+
+        
+    );
+    
+
+    
+  
+
+    function fun()
+    {
+
+      var x=  foo_codemirror.getValue();
+      var y = document.getElementById("code_input").value;
+      var data = {
+      code : x,
+      input : y,
+      'csrfmiddlewaretoken': '{{ csrf_token }}'
+    };
+    $.ajax({
+      url: '/response/',
+      data: data,
+      method: 'POST'
+    }).then(function (response) {
+        
+    })}
+
+</script>
+
+{% endblock %}

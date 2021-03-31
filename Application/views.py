@@ -14,11 +14,30 @@ from Application.EmailBackEnd import EmailBackEnd
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.generic.edit import FormView
+from .forms import SampleForm
+from .compiler import Compiler
 
 import json
 
 @ensure_csrf_cookie
 
+
+class BasicSampleFormView(FormView):
+    template_name = 'Application/form.html'
+    form_class = SampleForm
+    success_url = "/dashboard"
+
+    def get_success_url(self):
+        return reverse('codemirror-form')
+
+
+def getResponse(request):
+    data=request.POST.get("code")
+    inp  = request.POST.get("input")
+    print(data,inp)
+    
+    return (render(request, 'Application/home.html'))
 
 def homePage(request):
    

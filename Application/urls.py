@@ -2,6 +2,8 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from . import views, teacherView,studentView
 from ProgrammingCorner import settings
+from .views import BasicSampleFormView
+
 urlpatterns = [
     path('', views.homePage, name='home'),
     path('register/', views.RegisterPage, name='register'),
@@ -25,5 +27,6 @@ urlpatterns = [
     path('deleteQuestion/<int:id>/',teacherView.RemoveQuestion,name='delete_question'),
     path('editQuestion/<int:id>/',teacherView.editQuestion,name='edit_question'),
      path('updateQuestion/',teacherView.updateQuestion,name='update_question'),
+     path('form/', BasicSampleFormView.as_view(template_name="Application/form.html"), name='codemirror-form')
     
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
