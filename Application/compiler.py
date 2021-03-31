@@ -40,6 +40,7 @@ class Compiler:
                return err1.decode()
         else:
             return err.decode()
+            print("temp")
     
     
     def removeFiles(self):
