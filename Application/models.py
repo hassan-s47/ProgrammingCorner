@@ -105,6 +105,68 @@ class student_Class(models.Model):
     student_id=models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     class_id=models.ForeignKey(LabRoom,  on_delete=models.CASCADE)
 
+class Assessment(models.Model):
+    id = models.AutoField(primary_key=True)
+    course_id = models.IntegerField(null=False)
+    name = models.CharField(max_length=200)
+    start_date = models.DateTimeField()
+    due_date = models.DateTimeField()
+    description = models.CharField(max_length=200)
+    def __str__(self):
+        return self.name + " " + str(self.id)
+
+    def addAssessment(self, courseid, name, startDate, dueDate, description):
+        assessment = Assessment()
+        assessment = Assessment(course_id=courseid, name=name, start_date=startDate, due_date=dueDate, description=description)
+        assessment.save()
+        return assessment.id
+
+
+class Question(models.Model):
+    id = models.AutoField(primary_key=True)
+    assessment_id = models.ForeignKey(Assessment, on_delete=models.CASCADE)
+    statement = models.CharField(max_length=200)
+    weightage = models.IntegerField(null=False)
+
+    
+
+    def addQuestion(self, assessment_id, statement, weightage):
+        question=Question()
+        question=Question(assessment_id=assessment_id, statement=statement, weightage=weightage)
+        question.save()
+        return question
+    def editQuestion(self, Question_id, statement,weightage):
+
+        question_obj=Question.objects.get(id=Question_id)
+        question_obj.statement=statement
+        question_obj.weightage=weightage
+        question_obj.save()
+        return True
+
+    def removeQuestion(self, question_id):
+        clas = Question.objects.get(pk=question_id)
+        clas.delete()
+   
+
+class TestCase(models.Model):
+    id = models.AutoField(primary_key=True)
+    question_id = models.ForeignKey(Question, on_delete=models.CASCADE)
+    input_String = models.CharField(max_length=200)
+    output_String = models.CharField(max_length=200)
+
+    def addTestCase(self, question_id, input, output):
+        testCase=TestCase()
+        testCase=TestCase(question_id=question_id, input_String=input, output_String=output)
+        testCase.save()
+    def deleteTestCase(self,question_id):
+        try:
+            cases=TestCase.objects.get(question_id=question_id)
+            if cases!=None:
+                cases.delete()
+        except:
+            return
+
+
 
 
 

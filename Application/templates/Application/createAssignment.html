@@ -13,7 +13,7 @@ Create Assessment
 					<h3>Create Assessment</h3>
 				</div>
 			</div>
-            <form action="" method="post">
+            <form id="AssessmentForm" action="" method="post">
                 {% csrf_token %}
 			<div class="ed_contact_form ed_toppadder60">
 				<div class="col-lg-6 col-md-6 col-sm-12">
@@ -21,33 +21,35 @@ Create Assessment
                     <label for="course">Course</label>
 				<select name="courseId" class="form-control" id="courseId" required>
                     <option selected>Select Course</option>
-                    <option>ITC</option>
-
+                    {% for item in items %}
+                    <option value='{{item.id}}'>{{item.className}}</option>
+                    {% endfor%}
                 </select>
 				</div>
 				
 				<div class="form-group">
-                    <label for="Start-Date">Start Date</label>
-					<input type="datetime-local" id="startDate" class="form-control" required>
+                    <label for="startDate">Start Date</label>
+					<input name="startDate" type="datetime-local" id="startDate" class="form-control" required>
 				</div>
                 <div class="form-group">
                     <label for="due-Date">Due Date</label>
-					<input type="datetime-local" id="dueDate" class="form-control" required>
+					<input name="dueDate" type="datetime-local" id="dueDate" class="form-control" required>
 				</div>
 				</div>
 				<div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="form-group">
                         <label for="title">Title</label>
-                        <input type="text" id="title" class="form-control" required  placeholder="Enter title">
+                        <input name="title" type="text" id="title" class="form-control" required  placeholder="Enter title">
                     </div>
                     
 				<div class="form-group">
 				<label for="description">Description</label>
-                    <textarea id="msg" class="form-control" rows="5" placeholder="Description if any..." required></textarea>
+                    <textarea name="description" id="description" class="form-control" rows="5" placeholder="Description if any..." required></textarea>
 				</div>
 
 
-				<button id="ed_submit" class="btn ed_btn ed_orange pull-right">Save</button>
+				{% csrf_token %}
+				<button name="submit" id="submit" type="submit" class="btn ed_btn ed_orange pull-right">Save</button>
 				<p id="err"></p>
 				</div>
 			</div>
@@ -59,6 +61,5 @@ Create Assessment
 
   </div>
   
-
 
 {% endblock %}

@@ -9,10 +9,10 @@ Manage Assessment
 		<div class="row">
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="ed_heading_top">
-					<h3>Manage Questions</h3>
+					<h3>Edit Question</h3>
 				</div>
 			</div>
-            <h4 class="widget-title">Search Questions</h4>
+            <!-- <h4 class="widget-title">Search Questions</h4>
             <form action="/ViewScrapper/" method="post">
                 <div class="ed_contact_form ed_toppadder60">
                     <div class="col-lg-2 col-md-2 col-sm-2">
@@ -52,16 +52,16 @@ Manage Assessment
                 </div>
             </div>
             </form>
-            
+             -->
             <form id="QuestionForm" action="" method="POST" >
                 {% csrf_token %}
                 <script type="text/javascript">     window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
-                <input name="assessment_id" id="assessment_id" type="text" value="{{assessment_id}}" hidden>
+                <input name="assessment_id" id="assessment_id" type="text" value="{{question_id}}" hidden>
 			<div class="ed_contact_form ed_toppadder60">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="form-group">
                         <label for="statement">Statement</label>
-                            <textarea id="statement" name="statement"class="form-control" rows="5" placeholder="Question Description here..." required></textarea>
+                            <textarea id="statement"  name="statement"class="form-control" rows="5" placeholder="Question Description here..." required>{{Question.statement}}</textarea>
                         </div>
                         
         
@@ -70,7 +70,7 @@ Manage Assessment
                     
                     <div class="form-group">
                         <label for="title">Assign Weightage</label>
-                        <input type="number" id="weightage" name="weightage" class="form-control" required  placeholder="Enter title">
+                        <input type="number" value="{{Question.weightage}}" id="weightage" name="weightage" class="form-control" required  placeholder="Enter title">
                     </div>
                 </div>
               
@@ -108,7 +108,14 @@ Manage Assessment
                     </tr>
                   </thead>
                 <tbody>
-                    
+                    {% for item in TestCase %}
+                    <tr>
+                      
+                        <td class="Input" >{{item.input_String}}</td>
+                        <td class="Output">{{item.output_String}}</td>
+                        <td class="Delete"><i class="fa fa-trash"></i></td>
+                    </tr>
+                    {% endfor%}
                 </tbody>
             </table>
             <center>
@@ -120,37 +127,7 @@ Manage Assessment
     </div>
             </form>
 		</div>
-      
-      
-
-         <div class="ed_time_executor ed_toppadder40">
-            <ul>
-                <li><a href="#">Questions</a> <span></span></li>
-                </ul>
-         </div>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="woocommerce-checkout-payment">
-                <ul class="payment_methods methods">
-                    {% for item in items %}
-                    <li>
-                       
-                        <div class="ed_rate">
-                            <div class="custom-checkbox">
-                                <input type="radio" value="dbtc{{item.id}}" id="c{{item.id}}" name="checkout">
-                                <label for="c{{item.id}}"></label>
-                            </div>
-                        </div>
-                      
-                        Question {{item.id}}<span><a href="{% url 'edit_question' item.id %}" class="muted pull-right">Edit</a></span><span><a href="{% url 'delete_question' item.id %}" class="muted pull-right" style="padding-right:5px;">Delete</a></span>
-                        <div class="payment_box" data-period="dbtc{{item.id}}">
-                            <p>{{item.statement}}</p>
-                        </div>
-                    </li>
-                    {% endfor%}
-                </ul>
-            </div>
-        </div>
-     
+       
 </div>
 
 
@@ -220,7 +197,7 @@ $.ajaxSetup({
 });
         $.ajax({
             method: 'POST',
-            url: '',
+            url: '/updateQuestion/',
             data:{
                 id: $('#assessment_id').val(),
                 statement: $('#statement').val(),
@@ -229,7 +206,7 @@ $.ajaxSetup({
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             success: function() {
-                alert('Data Successfully Posted');   
+                alert('Data Edited Posted');   
                 location.reload(); 
             },
             });
