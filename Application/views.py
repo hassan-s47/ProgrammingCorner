@@ -22,7 +22,6 @@ import json
 
 
 
-
 class BasicSampleFormView(FormView):
     template_name = 'Application/form.html'
     form_class = SampleForm
