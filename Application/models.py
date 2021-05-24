@@ -175,8 +175,13 @@ class TestCase(models.Model):
             return
 
 
-
-
+class Submission(models.Model):
+    code = ""
+    isSubmitted = False
+    assessment_id = ""
+    question_id = ""
+    date = ""
+    time = ""
 
 @receiver(post_save,sender=CustomUser)
 def create_user_profile(sender,instance,created,**kwargs):

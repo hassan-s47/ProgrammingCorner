@@ -1,4 +1,5 @@
 # write all functions related to student here\
+from Application.views import CompilerForm
 from .forms import CreateClassForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -30,7 +31,7 @@ def StudentDashboardPage(request):
     total_courses=student_Class.objects.filter(student_id=request.user)
     course_info=[]
 
-    i=0;
+    i=0
     for corse in total_courses:
         temp=student_Class.objects.filter(class_id=corse.class_id).count()
         Teacher_obbj=Teacher.objects.get(admin=corse.class_id.tutor)
@@ -129,3 +130,6 @@ def viewAssessment(request):
 
         items = Question.objects.all().filter(assessment_id=assessment_id1)
         return(render(request,'Application/viewAssessmentStd.html', {"items":items, "assessment_id":assessment_id1}))
+
+def attemptQuestion(request,id):
+    return CompilerForm.as_view(template_name = "form.html")

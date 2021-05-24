@@ -22,13 +22,17 @@ import json
 
 
 
-class BasicSampleFormView(FormView):
+class CompilerForm(FormView):
     template_name = 'Application/form.html'
     form_class = SampleForm
     success_url = "/dashboard"
 
+    def getContext(self,question_id,student_id):
+        self.questionID = question_id
+        self.studentID = student_id
+
     def get_success_url(self):
-        return reverse('codemirror-form')
+        return reverse('codemirror-form',kwargs = {"question_id": self.questionID, "student_id": self.studentID})
 
 
 def getResponse(request):
@@ -36,7 +40,7 @@ def getResponse(request):
     inp  = request.POST.get("input")
     print(data,inp)
     compiler=Compiler(data,inp)
-    output=compiler.run()
+    output=compiler.run(inp)
     return HttpResponse(json.dumps({'output' : output}), content_type='application/json')
 
 
