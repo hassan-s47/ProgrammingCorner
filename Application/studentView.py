@@ -16,10 +16,7 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime
 import json
 
-<<<<<<< HEAD
 # @ensure_csrf_cookie
-=======
->>>>>>> 30182a3d1cf6906a39eef963c63ad0e0ee77036b
 class TempShow: # change class name
   
     def __init__(self,n,i,c,t,p):
