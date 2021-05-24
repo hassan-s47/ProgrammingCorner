@@ -12,47 +12,7 @@ Manage Assessment
 					<h3>Edit Question</h3>
 				</div>
 			</div>
-            <!-- <h4 class="widget-title">Search Questions</h4>
-            <form action="/ViewScrapper/" method="post">
-                <div class="ed_contact_form ed_toppadder60">
-                    <div class="col-lg-2 col-md-2 col-sm-2">
-                     </div>   
-                     <div class="col-lg-8 col-md-8 col-sm-8">
-                     
-                   
-                    <div class="row">
-                        <div class="ed_newsletter_section_form">
-                            {% csrf_token %}
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                    <select name="topic" class="form-control" id="topic" required>
-                                        <option value="Variables and literals">Variables and literals</option>
-                                           <option value="Operators">Operators</option>
-                                           <option value="Decide if/else"> if/else</option>
-                                           <option value="Loops">Loops</option>
-                                           <option value="Function">Function</option>
-                                           <option value="Pointers">Pointers</option>
-                                           <option value="Array">Array</option>
-                                           <option value="String">String</option>
-                                           <option value="Pre-processor">Pre-processor </option>
-                                           <option value="Structure">Structure</option>
-                                           <option value="Classes and objects">Classes and objects</option>
-                                           <option value="Subclass">Subclass</option>
-                                           <option value="Constructor overloading">Constructor overloading</option>
-                                           <option value="Array of objects">Array of objects</option>
-                                           <option value="Multiple inheritance ">Multiple inheritance </option>
-                                           
-                                            </select>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                    <button class="btn ed_btn ed_green" type="Submit">Search</button>
-                                </div>
-                           
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </form>
-             -->
+           
             <form id="QuestionForm" action="" method="POST" >
                 {% csrf_token %}
                 <script type="text/javascript">     window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
@@ -96,7 +56,7 @@ Manage Assessment
             	<button type="button" class="btn ed_btn btn-info pull-right" onclick="addTestCase()">Add Test Case </button>
                
       
-            <div id="testCasePush class="col-md-12">
+            <div id="testCasePush" class="col-md-12">
             <h3>Test Cases</h3>
             <table class="table table-bordered" id="testCase" name="testcase">
                 <thead>

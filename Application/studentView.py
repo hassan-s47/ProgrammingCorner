@@ -12,11 +12,11 @@ from .models import CustomUser, Student, LabRoom ,student_Class,Teacher, Assessm
 from Application.EmailBackEnd import EmailBackEnd
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import ensure_csrf_cookie
+# from django.views.decorators.csrf import ensure_csrf_cookie
 from datetime import datetime
 import json
 
-@ensure_csrf_cookie
+# @ensure_csrf_cookie
 class TempShow: # change class name
   
     def __init__(self,n,i,c,t,p):
@@ -29,12 +29,14 @@ class TempShow: # change class name
 def StudentDashboardPage(request):
     total_courses=student_Class.objects.filter(student_id=request.user)
     course_info=[]
-  
+
     i=0;
     for corse in total_courses:
         temp=student_Class.objects.filter(class_id=corse.class_id).count()
         Teacher_obbj=Teacher.objects.get(admin=corse.class_id.tutor)
+        print(Teacher_obbj)
         obj=TempShow(corse.class_id.className,corse.class_id.id,temp,corse.class_id.tutor.username,Teacher_obbj)
+        
         course_info.append(obj)
    
     student_obj=CustomUser.objects.get(id=request.user.id)
@@ -100,3 +102,30 @@ def viewClassStudent(request,id):
     no_of_student=len(students_obj)
     lab_obj=LabRoom.objects.get(id=id)
     return (render(request,'Application/courseStudent.html',{"assessments_count":assessments_count, "assessments_up":assessments,"count":no_of_student,"assessments_pa":assessments_pa,"labdetail":lab_obj,"students":students_obj}))
+
+
+def viewAssessment(request):
+    if request.method!="POST":
+         #form is not submitted 
+        assessment_id1 = request.GET.get("id")
+        print(assessment_id1)
+        items = Question.objects.all().filter(assessment_id=assessment_id1)
+        print(items)
+        return(render(request,'Application/viewAssessmentStd.html', {"items":items, "assessment_id":assessment_id1}))
+    else:
+        assessment_id1 = request.POST.get("id")
+        print("Assessment ID",assessment_id1)
+        statement = request.POST.get("statement")
+        weightage = request.POST.get("weightage")
+        postData=json.loads(request.POST.get('DataSend'))
+        question=Question()
+        assessment_obj = Assessment.objects.all().get(id=assessment_id1)
+        question=question.addQuestion(assessment_obj, statement, weightage)
+        for items in postData:
+            input=items['input']
+            output=items['output']
+            testCase=TestCase()
+            testCase.addTestCase(question, input, output)
+
+        items = Question.objects.all().filter(assessment_id=assessment_id1)
+        return(render(request,'Application/viewAssessmentStd.html', {"items":items, "assessment_id":assessment_id1}))

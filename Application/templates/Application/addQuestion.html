@@ -23,6 +23,7 @@ Manage Assessment
                     <div class="row">
                         <div class="ed_newsletter_section_form">
                             {% csrf_token %}
+                            <input name="assessment_id" id="assessment_id" type="text" value="{{assessment_id}}" hidden>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                                     <select name="topic" class="form-control" id="topic" required>
                                         <option value="Variables and literals">Variables and literals</option>

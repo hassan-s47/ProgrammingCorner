@@ -4,6 +4,14 @@ Assessments
 {% endblock %}
 {% block banner %} Create Assessments{% endblock %}
 {% block content %}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
 
 <div class="ed_transprentbg ed_toppadder80 ed_bottompadder80">
 	<div class="container">
@@ -18,7 +26,7 @@ Assessments
         
         <div class="row">
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top:2%">
-                <table  class="table table-bordered">
+                <table  class="table table-bordered" id="example">
                     <thead>
                         <tr>
                             <th>Statement</th>
@@ -29,9 +37,9 @@ Assessments
                       {% for question in  questionlist %}
                         <tr>
                           <tr>
-                            <td>{{question}}</td>
+                            <td id="Statement">{{question}}</td>
                             <td>
-                              <button type="button" class="btn btn-primary " onclick="alert(this.id)">Add</button>
+                              <button type="button" class="btn btn-primary iAddbutton">Add</button>
                             </td>
                           </tr>
                           
@@ -40,9 +48,9 @@ Assessments
                      
                         <tr>
                           <tr>
-                            <td>Write a function that will return the fictorial</td>
+                            <td id=''>Write a function that will return the fictorial</td>
                             <td>
-                              <button type="button" class="btn btn-primary " onclick="alert(1)">Add</button>
+                              <button type="button" class="btn btn-primary iAddbutton" >Add</button>
                             </td>
                           </tr>
                           
@@ -55,15 +63,188 @@ Assessments
 		</div>
  </div>
 </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Question</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row" style="padding:10px; padding-top:0px">
+         
+               
+                <form id="QuestionForm" action="" method="POST" >
+                    {% csrf_token %}
+                    <script type="text/javascript">     window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+                    <input name="assessment_id" id="assessment_id" type="text" value="{{assessment_id}}" hidden>
+          <div class="">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group">
+                            <label for="statement">Statement</label>
+                                <textarea id="statement"  name="statement"class="form-control" rows="3" placeholder="Question Description here..." required></textarea>
+                            </div>
+                            
+            
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        
+                        <div class="form-group">
+                            <label for="title">Assign Weightage</label>
+                            <input type="number" value="{{Question.weightage}}" id="weightage" name="weightage" class="form-control" required  placeholder="Enter title">
+                        </div>
+                    </div>
+                  
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                        
+            <div class="form-group">
+                        <label for="course">Input</label>
+                        <textarea id="testCaseInput" name="testCaseInput" class="form-control" rows="3" placeholder="Enter TestCase Input"></textarea>
+            </div>
+            
+                   
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="title">Expected Output</label> <textarea id="testCaseOutput" name="testCaseOutput" class="form-control" rows="3" placeholder="Enter TestCase Output"></textarea>
+                        </div>
+            
+          
+          
+                </div>
+                
+                
+                  <button type="button" class="btn ed_btn btn-info pull-right" onclick="addTestCase()" style="margin-bottom:5px">Add Test Case </button>
+                   
+          
+                <div id="testCasePush class="col-md-12">
+                <h3>Test Cases</h3>
+                <table class="table table-bordered" id="testCase" name="testcase">
+                  <thead>
+                      <tr>
+                      
+                        <th scope="col">Input</th>
+                        <th scope="col">Output</th>
+                          <th scope="col">Delete</th>
+                      </tr>
+                    </thead>
+                  <tbody>
+                      
+                  </tbody>
+              </table>
+                <center>
+                    {% csrf_token %}
+                    <button id="addQuestionToList" class="btn ed_btn btn-success">Save Question<i class="fa fa-save"></i> </button>
+                </center>
+            </div>
+          
+        </div>
+                </form>
+        </div>
+           
+      </div>
+      
+    </div>
+  </div>
+</div>
+<script>
+    $(function() {
+  $(document ).on("click","#example button.iAddbutton",function() {
+    let tr = $(this).closest('tr');
+    a=tr.find("td:eq(0)").text()
+    document.getElementById("statement").innerHTML=a;
+    $('#exampleModal').modal('show');
+    
+  });
+});
+function addTestCase(){
+   event.preventDefault(); // Stop the form from causing a page refresh.
+        var inputTestcase = $('#testCaseInput').val();
+        var outputTestcase = $('#testCaseOutput').val();
+        if(inputTestcase=="" || outputTestcase=="")
+        {
+          return 
+        }
+        console.log(inputTestcase + " " + outputTestcase);
+        var delete1 = '<a href=""><i class="fa fa-trash"></i></a>';
+        var new_row = '<tr><td class="Input">' + inputTestcase + '</td><td class="Output">' + outputTestcase + '</td><td class="Delete">' + delete1 + '</td></tr>';
+        $("table tbody").append(new_row);
+        document.getElementById("testCaseInput").value ='';
+        document.getElementById("testCaseOutput").value ='';
+      }
+      $(document).ready(function(){
+    $('#QuestionForm').on('submit', function(e) {
+    event.preventDefault(); // Stop the form from causing a page refresh.
+        var postData = [];
+
+        var inputTestcase, outputTestcase;
+        $("table tbody tr").each(function(index) {
+            inputTestcase = $(this).find('.Input').text();
+            outputTestcase = $(this).find('.Output').text();
+            if(inputTestcase == null || outputTestcase == null){
+                alert('Plese fill both fields.');
+            }
+            else{
+            postData.push({
+                'input': inputTestcase,
+                'output': outputTestcase,
+            });
+        }
+        });
+        console.log(JSON.stringify(postData));
+        function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+        $.ajax({
+            method: 'POST',
+            url: '/addQuestion/',
+            data:{
+                id: $('#assessment_id').val(),
+                statement: $('#statement').val(),
+                weightage: $('#weightage').val(),
+                DataSend: JSON.stringify(postData),
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function() {
+                alert('Data Successfully Posted');   
+                location.reload(); 
+            },
+            });
+    });
+});
+
+
+   </script>
+
  
 
 {% endblock %}
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
-</body>
-</html>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+

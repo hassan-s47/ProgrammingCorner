@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import ensure_csrf_cookie
 from datetime import datetime
 import json
-
+import numpy as np
 @ensure_csrf_cookie
 
 
@@ -57,13 +57,15 @@ def RemoveClass(request,id):
     
 def ViewScrapper(request):
     context={}
+    
     if request.method=="POST":
         topicname=request.POST.get("topic")
+        assessment_id=request.POST.get("assessment_id")
         print(topicname)
         
         sc = Scrapper()
 
-        results = sc.getquestionlist("Loops")
+        results = sc.getquestionlist(topicname)
         questionlist = []
         if results is not None:
 
@@ -71,8 +73,8 @@ def ViewScrapper(request):
                 questionlist.append(res.get_attribute ("innerText"))
                             
         sc.driver.quit()
-        context = {'questionlist': questionlist}   
-        return(render(request, 'Application/scraperView.html', context))
+        context = {'questionlist': questionlist,"assessment_id":assessment_id}   
+        return(render(request, 'Application/scraperView.html',context))
 
    
     return(render(request, 'Application/scraperView.html', context))
@@ -121,6 +123,7 @@ def addQuestion(request):
 
         items = Question.objects.all().filter(assessment_id=assessment_id1)
         return(render(request,'Application/addQuestion.html', {"items":items, "assessment_id":assessment_id1}))
+
 def RemoveQuestion(request,id): 
     print(request)  
     q=Question()
@@ -190,8 +193,33 @@ def viewClass(request,id):
     assessments=Assessment.objects.all().filter(course_id=id,due_date__gte = datetime.now())
     assessments_pa=Assessment.objects.all().filter(course_id=id,due_date__lt = datetime.now())
     assessments_count=Assessment.objects.all().filter(course_id=id).count()
-    print(assessments_pa)
     students_obj=student_Class.objects.all().filter(class_id=id)
     no_of_student=len(students_obj)
     lab_obj=LabRoom.objects.get(id=id)
     return (render(request,'Application/course.html',{"assessments_count":assessments_count, "assessments_up":assessments,"count":no_of_student,"assessments_pa":assessments_pa,"labdetail":lab_obj,"students":students_obj}))
+
+def viewAssessment(request):
+    if request.method!="POST":
+         #form is not submitted 
+        assessment_id1 = request.GET.get("id")
+        print(assessment_id1)
+        items = Question.objects.all().filter(assessment_id=assessment_id1)
+        print(items)
+        return(render(request,'Application/viewAssessment.html', {"items":items, "assessment_id":assessment_id1}))
+    else:
+        assessment_id1 = request.POST.get("id")
+        print("Assessment ID",assessment_id1)
+        statement = request.POST.get("statement")
+        weightage = request.POST.get("weightage")
+        postData=json.loads(request.POST.get('DataSend'))
+        question=Question()
+        assessment_obj = Assessment.objects.all().get(id=assessment_id1)
+        question=question.addQuestion(assessment_obj, statement, weightage)
+        for items in postData:
+            input=items['input']
+            output=items['output']
+            testCase=TestCase()
+            testCase.addTestCase(question, input, output)
+
+        items = Question.objects.all().filter(assessment_id=assessment_id1)
+        return(render(request,'Application/viewAssessment.html', {"items":items, "assessment_id":assessment_id1}))
