@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 from .models import Student, Teacher, LabRoom
+from djangocodemirror.fields import CodeMirrorField
+
 
 class CreateStudentForm(forms.Form):
     email=forms.EmailField(label="Email",max_length=50,widget=forms.EmailInput(attrs={"class":"form-control",'placeholder':'example@email.com'}))
@@ -15,7 +17,6 @@ class CreateClassForm(forms.Form):
     name=forms.CharField(label="Name", max_length=50, widget=forms.TextInput(attrs={"class":"form-control"}))
     classCode=forms.CharField(label="Class Code", max_length=10, widget=forms.TextInput(attrs={"class":"form-control"}))
     
-# class CreateTeacherForm(UserCreationForm):
-#     class Meta:
-#         model = Teacher
-#         fields = ['username', 'email', 'password', 'password2']
+
+class SampleForm(forms.Form):
+    foo = CodeMirrorField(label="Code", required=True,config_name="javascript")

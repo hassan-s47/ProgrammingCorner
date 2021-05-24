@@ -1,0 +1,102 @@
+{% extends 'Application/base.html' %}
+{% block title %}
+Solve Assessment
+{% endblock %}
+{% block banner %} Compiler{% endblock %}
+{% block content %}
+
+{% load static %}
+{% load djangocodemirror_tags %}
+<div class="container">
+  <div class = "row">
+    <div class="col-md-8" style=" padding-top:23px;">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <form style="border: 1px solid black;">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" value = "Run" id="runBtn" class="btn btn-primary" onclick='fun()'><i class="fa fa-play"></i> Run</button>
+          
+      </form>
+      
+      {% codemirror_field_css_assets form.foo %}
+      {% codemirror_field_js_assets form.foo %}
+    </div>
+    <div class = "col-md-4">
+      <div>
+        <label for="Label">Input</label><br>
+        <textarea name="" id="code_input" cols="50" rows="10"></textarea>
+      </div>
+      <div>
+        <label for="Label">Output</label><br>
+        <textarea name="" id="code_output" cols="50" placeholder="Output will be displayed here..." rows="10" style="background-color:black; color:green" readonly></textarea>
+      </div>
+    </div>
+</div>
+
+    
+</div>
+
+<script>
+    
+    var foo_codemirror = CodeMirror.fromTextArea(
+        document.getElementById("id_foo"),
+        {
+            mode:"css",
+            lineNumbers:true,
+            styleActiveLine: true,
+            matchBrackets: true,
+            moveOnDrag:true,
+            viewportMargin:30,
+            theme : "codemirror.css",
+            extraKeys: {"Ctrl-Space": "autocomplete"},
+            addons: [
+            "CodeMirror/addon/edit/matchbrackets.js",
+            "CodeMirror/addon/hint/javascript-hint.js",
+            "CodeMirror/addon/hint/show-hint.js",
+            ],
+
+        }
+
+        
+    );
+    
+
+    foo_codemirror.setValue(
+      `#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main(int argc, char** argv)
+{
+  ifstream fin(argv[1]);
+  //start code here...
+  //use fin instead of cin
+
+
+  return 0;
+}`)
+  
+
+    function fun()
+    {
+      document.getElementById('runBtn').style.display='none';
+      var x=  foo_codemirror.getValue();
+      var y = document.getElementById("code_input").value;
+      var data = {
+      code : x,
+      input : y,
+      'csrfmiddlewaretoken': '{{ csrf_token }}'
+    };
+    $.ajax({
+      url: '/response/',
+      data: data,
+      method: 'POST'
+    }).then(function (response) {
+      document.getElementById('code_output').value = response.output
+      document.getElementById('runBtn').style.display='block';
+        
+    })}
+
+</script>
+
+{% endblock %}

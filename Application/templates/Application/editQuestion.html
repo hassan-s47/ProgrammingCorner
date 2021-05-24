@@ -1,0 +1,217 @@
+{% extends 'Application/base.html' %}
+{% block title %}
+Manage Assessment
+{% endblock %}
+{% block banner %} Manage Questions{% endblock %}
+{% block content %}
+<div class="ed_transprentbg ed_toppadder80 ed_bottompadder80">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="ed_heading_top">
+					<h3>Edit Question</h3>
+				</div>
+			</div>
+            <!-- <h4 class="widget-title">Search Questions</h4>
+            <form action="/ViewScrapper/" method="post">
+                <div class="ed_contact_form ed_toppadder60">
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                     </div>   
+                     <div class="col-lg-8 col-md-8 col-sm-8">
+                     
+                   
+                    <div class="row">
+                        <div class="ed_newsletter_section_form">
+                            {% csrf_token %}
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    <select name="topic" class="form-control" id="topic" required>
+                                        <option value="Variables and literals">Variables and literals</option>
+                                           <option value="Operators">Operators</option>
+                                           <option value="Decide if/else"> if/else</option>
+                                           <option value="Loops">Loops</option>
+                                           <option value="Function">Function</option>
+                                           <option value="Pointers">Pointers</option>
+                                           <option value="Array">Array</option>
+                                           <option value="String">String</option>
+                                           <option value="Pre-processor">Pre-processor </option>
+                                           <option value="Structure">Structure</option>
+                                           <option value="Classes and objects">Classes and objects</option>
+                                           <option value="Subclass">Subclass</option>
+                                           <option value="Constructor overloading">Constructor overloading</option>
+                                           <option value="Array of objects">Array of objects</option>
+                                           <option value="Multiple inheritance ">Multiple inheritance </option>
+                                           
+                                            </select>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <button class="btn ed_btn ed_green" type="Submit">Search</button>
+                                </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+             -->
+            <form id="QuestionForm" action="" method="POST" >
+                {% csrf_token %}
+                <script type="text/javascript">     window.CSRF_TOKEN = "{{ csrf_token }}"; </script>
+                <input name="assessment_id" id="assessment_id" type="text" value="{{question_id}}" hidden>
+			<div class="ed_contact_form ed_toppadder60">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="form-group">
+                        <label for="statement">Statement</label>
+                            <textarea id="statement"  name="statement"class="form-control" rows="5" placeholder="Question Description here..." required>{{Question.statement}}</textarea>
+                        </div>
+                        
+        
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    
+                    <div class="form-group">
+                        <label for="title">Assign Weightage</label>
+                        <input type="number" value="{{Question.weightage}}" id="weightage" name="weightage" class="form-control" required  placeholder="Enter title">
+                    </div>
+                </div>
+              
+				<div class="col-lg-6 col-md-6 col-sm-12">
+                    
+				<div class="form-group">
+                    <label for="course">Input</label>
+                    <textarea id="testCaseInput" name="testCaseInput" class="form-control" rows="5" placeholder="Enter TestCase Input"></textarea>
+				</div>
+				
+               
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="title">Expected Output</label> <textarea id="testCaseOutput" name="testCaseOutput" class="form-control" rows="5" placeholder="Enter TestCase Output"></textarea>
+                    </div>
+        
+			
+			
+            </div>
+            
+            
+            	<button type="button" class="btn ed_btn btn-info pull-right" onclick="addTestCase()">Add Test Case </button>
+               
+      
+            <div id="testCasePush class="col-md-12">
+            <h3>Test Cases</h3>
+            <table class="table table-bordered" id="testCase" name="testcase">
+                <thead>
+                    <tr>
+                    
+                      <th scope="col">Input</th>
+                      <th scope="col">Output</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                  </thead>
+                <tbody>
+                    {% for item in TestCase %}
+                    <tr>
+                      
+                        <td class="Input" >{{item.input_String}}</td>
+                        <td class="Output">{{item.output_String}}</td>
+                        <td class="Delete"><i class="fa fa-trash"></i></td>
+                    </tr>
+                    {% endfor%}
+                </tbody>
+            </table>
+            <center>
+                {% csrf_token %}
+                <button id="addQuestionToList" class="btn ed_btn btn-success">Save Question<i class="fa fa-save"></i> </button>
+            </center>
+        </div>
+      
+    </div>
+            </form>
+		</div>
+       
+</div>
+
+
+
+
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+   function addTestCase(){
+   event.preventDefault(); // Stop the form from causing a page refresh.
+        var inputTestcase = $('#testCaseInput').val();
+        var outputTestcase = $('#testCaseOutput').val();
+        console.log(inputTestcase + " " + outputTestcase);
+        var delete1 = '<a href=""><i class="fa fa-trash"></i></a>';
+        var new_row = '<tr><td class="Input">' + inputTestcase + '</td><td class="Output">' + outputTestcase + '</td><td class="Delete">' + delete1 + '</td></tr>';
+        $("table tbody").append(new_row);
+        document.getElementById("testCaseInput").value ='';
+        document.getElementById("testCaseOutput").value ='';
+   }
+
+    $(document).ready(function(){
+    $('#QuestionForm').on('submit', function(e) {
+    event.preventDefault(); // Stop the form from causing a page refresh.
+        var postData = [];
+
+        var inputTestcase, outputTestcase;
+        $("table tbody tr").each(function(index) {
+            inputTestcase = $(this).find('.Input').text();
+            outputTestcase = $(this).find('.Output').text();
+            if(inputTestcase == null || outputTestcase == null){
+                alert('Plese fill both fields.');
+            }
+            else{
+            postData.push({
+                'input': inputTestcase,
+                'output': outputTestcase,
+            });
+        }
+        });
+        console.log(JSON.stringify(postData));
+        function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+        $.ajax({
+            method: 'POST',
+            url: '/updateQuestion/',
+            data:{
+                id: $('#assessment_id').val(),
+                statement: $('#statement').val(),
+                weightage: $('#weightage').val(),
+                DataSend: JSON.stringify(postData),
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function() {
+                alert('Data Edited Posted');   
+                location.reload(); 
+            },
+            });
+    });
+});
+   </script>
+
+{% endblock %}

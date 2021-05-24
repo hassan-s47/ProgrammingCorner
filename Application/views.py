@@ -9,10 +9,35 @@ from django.contrib.auth import  login, logout
 from .models import Student
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import CustomUser, Student, LabRoom ,student_Class,Teacher
+from .models import CustomUser, Student, LabRoom ,student_Class,Teacher, Assessment, Question, TestCase
 from Application.EmailBackEnd import EmailBackEnd
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.generic.edit import FormView
+from .forms import SampleForm
+from .compiler import Compiler
+from .compiler import Compiler
+import json
+
+
+
+class BasicSampleFormView(FormView):
+    template_name = 'Application/form.html'
+    form_class = SampleForm
+    success_url = "/dashboard"
+
+    def get_success_url(self):
+        return reverse('codemirror-form')
+
+
+def getResponse(request):
+    data=request.POST.get("code")
+    inp  = request.POST.get("input")
+    print(data,inp)
+    compiler=Compiler(data,inp)
+    output=compiler.run()
+    return HttpResponse(json.dumps({'output' : output}), content_type='application/json')
 
 
 def homePage(request):
@@ -80,7 +105,7 @@ def LoginPage(request):
     if request.method!="POST": #form is not submitted 
         return(render(request, 'Application/login.html', context)) # show page only
     else:
-        email=username=request.POST.get("email")
+        email=request.POST.get("email")
         passwords=request.POST.get("password")
         obj=CustomUser()
         user=obj.dologin(EmailBackEnd,email,passwords,request)
@@ -107,7 +132,16 @@ def LogoutUser(request):
 def courseDetails(request):
     return(render(request,'Application/course.html'))
 
-def createAssessment(request):
-    return(render(request,'Application/createAssignment.html'))
+def courseDetailsStudent(request):
+    return(render(request, 'Application/courseStudent.html'))
+    
+def viewAssessment(request):
+    #get assessment from that teacher and display here
+    
+    return(render(request,'Application/manageAssessments.html'))
+
+def manaegQuestions(request):
+   
+    return(render(request,'Application/addQuestion.html'))
 
 

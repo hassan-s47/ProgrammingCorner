@@ -105,6 +105,76 @@ class student_Class(models.Model):
     student_id=models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     class_id=models.ForeignKey(LabRoom,  on_delete=models.CASCADE)
 
+class Assessment(models.Model):
+    id = models.AutoField(primary_key=True)
+    course_id = models.IntegerField(null=False)
+    name = models.CharField(max_length=200)
+    start_date = models.DateTimeField()
+    due_date = models.DateTimeField()
+    description = models.CharField(max_length=200)
+    def __str__(self):
+        return self.name + " " + str(self.id)
+
+    def addAssessment(self, courseid, name, startDate, dueDate, description):
+        assessment = Assessment()
+        assessment = Assessment(course_id=courseid, name=name, start_date=startDate, due_date=dueDate, description=description)
+        assessment.save()
+        return assessment.id
+    def updateAssessment(self,ass_id,course_id,name, startDate, dueDate, description):
+        obj=Assessment.objects.get(id=ass_id)
+        obj.course_id=course_id
+        obj.name=name
+        obj.start_date=startDate
+        obj.due_date=dueDate
+        obj.description=description
+        obj.save()
+
+
+class Question(models.Model):
+    id = models.AutoField(primary_key=True)
+    assessment_id = models.ForeignKey(Assessment, on_delete=models.CASCADE)
+    statement = models.CharField(max_length=200)
+    weightage = models.IntegerField(null=False)
+
+    
+
+    def addQuestion(self, assessment_id, statement, weightage):
+        question=Question()
+        question=Question(assessment_id=assessment_id, statement=statement, weightage=weightage)
+        question.save()
+        return question
+    def editQuestion(self, Question_id, statement,weightage):
+
+        question_obj=Question.objects.get(id=Question_id)
+        question_obj.statement=statement
+        question_obj.weightage=weightage
+        question_obj.save()
+        return True
+
+    def removeQuestion(self, question_id):
+        clas = Question.objects.get(pk=question_id)
+        clas.delete()
+   
+
+class TestCase(models.Model):
+    id = models.AutoField(primary_key=True)
+    question_id = models.ForeignKey(Question, on_delete=models.CASCADE)
+    input_String = models.CharField(max_length=200)
+    output_String = models.CharField(max_length=200)
+
+    def addTestCase(self, question_id, input, output):
+        testCase=TestCase()
+        testCase=TestCase(question_id=question_id, input_String=input, output_String=output)
+        testCase.save()
+    def deleteTestCase(self,question_id):
+        try:
+            cases=TestCase.objects.get(question_id=question_id)
+            if cases!=None:
+                cases.delete()
+        except:
+            return
+
+
 
 
 
@@ -112,18 +182,14 @@ class student_Class(models.Model):
 def create_user_profile(sender,instance,created,**kwargs):
     if created:
         if instance.user_type==2:
-
             Student.objects.create(admin=instance,rollNo="",profile_pic="http://placehold.it/263X263")
         if instance.user_type==1:
             Teacher.objects.create(admin=instance,profile_pic="http://placehold.it/263X263")
-        # if instance.user_type==3:
-        #     Students.objects.create(admin=instance,course_id=Courses.objects.get(id=1),session_start_year="2020-01-01",session_end_year="2021-01-01",address="",profile_pic="",gender="")
-
+       
 @receiver(post_save,sender=CustomUser)
 def save_user_profile(sender,instance,**kwargs):
     if instance.user_type==2:
         instance.student.save()
     if instance.user_type==1:
         instance.teacher.save()
-    # if instance.user_type==3:
-    #     instance.students.save()  
+   

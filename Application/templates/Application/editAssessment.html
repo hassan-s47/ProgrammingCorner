@@ -1,0 +1,71 @@
+{% extends 'Application/base.html' %}
+{% block title %}
+Edit Assessment
+{% endblock %}
+{% block banner %} Create Assessment{% endblock %}
+{% block content %}
+
+<div class="ed_transprentbg ed_toppadder80 ed_bottompadder80">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="ed_heading_top">
+					<h3>Edit Assessment</h3>
+				</div>
+			</div>
+            <form id="AssessmentForm" action="/updateAssessment/" method="post">
+                {% csrf_token %}
+			<div class="ed_contact_form ed_toppadder60">
+				<div class="col-lg-6 col-md-6 col-sm-12">
+				<div class="form-group">
+                    <input type="hidden" name="assessment_id" value="{{assessment_id}}" required>
+                    <label for="course">Course</label>
+				<select name="courseId" class="form-control" id="courseId" required>
+                    <option selected>Select Course</option>
+                    {% for item in items %}
+                    {% if item.id == Assessment.course_id %}
+                    <option value='{{item.id}}' selected>{{item.className}}</option>
+                    
+                    {% else %}
+                    <option value='{{item.id}}' >{{item.className}}</option>
+                {% endif %}
+                    {% endfor%}
+                </select>
+				</div>
+				
+				<div class="form-group">
+                    <label for="startDate">Start Date</label>
+					<input name="startDate" value="{{Assessment.start_date}}" type="datetime-local" id="startDate" class="form-control" required>
+				</div>
+                <div class="form-group">
+                    <label for="due-Date">Due Date</label>
+					<input name="dueDate" type="datetime-local" id="dueDate" class="form-control" required>
+				</div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input name="title" type="text" value="{{Assessment.name}}" id="title" class="form-control" required  placeholder="Enter title">
+                    </div>
+                    
+				<div class="form-group">
+				<label for="description">Description</label>
+                    <textarea name="description" id="description" class="form-control" rows="5"  required> {{Assessment.description}}</textarea>
+				</div>
+
+
+				{% csrf_token %}
+				<button name="submit" id="submit" type="submit" class="btn ed_btn ed_orange pull-right">Update</button>
+				<p id="err"></p>
+				</div>
+			</div>
+            </form>
+		</div>
+    
+</div>
+
+
+  </div>
+  
+
+{% endblock %}

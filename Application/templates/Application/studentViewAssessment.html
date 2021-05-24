@@ -1,0 +1,48 @@
+{% extends 'Application/base.html' %}
+{% block title %}
+Assessments
+{% endblock %}
+{% block banner %} CourseCode Assessments{% endblock %}
+{% block content %}
+
+<div class="ed_transprentbg ed_toppadder80 ed_bottompadder80">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="ed_heading_top">
+					<h3>CourseCode Assessment</h3>
+				</div>
+			</div>
+      
+		</div>
+       
+        <div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top:2%">
+                <table  class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Start Date</th>
+                            <th>Due Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>OOP Inheritance</td>
+                            <td>12-01-2021 12:00 PM</td>
+                            <td>15-01-2021 11:59 PM</td>
+                            <td>
+                           <a href="#"><button  type="button" class="btn btn-success" ></a>
+                        </td>
+                        </tr>												
+                    </tbody>
+                </table>
+			</div>
+      
+		</div>
+ </div>
+</div>
+ 
+
+{% endblock %}

@@ -1,0 +1,273 @@
+{% extends 'Application/base.html' %}
+{% block title%}
+Course Details
+{% endblock %}
+{% block banner %}
+{{labdetail.className}}
+{% endblock %}
+
+{% block content %} 
+
+
+<div class="ed_graysection ed_course_single ed_toppadder80 ed_bottompadder80">
+	<div class="container">
+		<div class="row">
+            <div class="col-md-1 col-lg-1"></div>
+			<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+				<div class="ed_course_single_item">
+					<div class="ed_course_single_image">
+						<img src="http://placehold.it/806X387" alt="event image" />
+					</div>
+					<div class="ed_course_single_info">
+						<h2>{{labdetail.className}} <span></span></h2>
+						<div class="ed_rating">
+							<div class="row">
+								<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+									<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+											
+										</div>
+										
+									</div>
+								</div>
+								<div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 pull-right text-right">
+									<div class="ed_views">
+										<i class="fa fa-users"></i>
+										<span>{{count}} students</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+								<div class="course_detail">
+									<div class="course_faculty">
+										<img src="http://placehold.it/32X32" alt=""> <a href="instructor_dashboard.html">{{ labdetail.tutor}}</a>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 pull-right text-right">
+								
+							</div>
+						</div>
+					</div>
+					<div class="ed_course_single_tab">
+						<div role="tabpanel">
+							<!-- Nav tabs -->
+							<ul class="nav nav-tabs" role="tablist">
+								<li role="presentation" class="active"><a href="#news" aria-controls="news" role="tab" data-toggle="tab">announcement</a></li>
+								<li role="presentation"><a href="#students" aria-controls="students" role="tab" data-toggle="tab">students</a></li>
+								<li role="presentation"><a href="#events" aria-controls="events" role="tab" data-toggle="tab">Assessment</a></li>
+							</ul>
+							<!-- Tab panes -->
+							<div class="tab-content">
+								<div role="tabpanel" class="tab-pane " id="description">
+									<div class="ed_course_tabconetent">
+									<h2>about course</h2>
+										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vehicula mauris ac facilisis congue. Fusce sem enim, rhoncus volutpat condimentum ac, placerat semper ligula. Suspendisse in viverra justo, eu placerat urna. Vestibulum blandit diam suscipit nibh mattis ullamcorper. Nullam a condimentum nulla, ut facilisis enim. Aliquam sagittis ipsum ex, sed luctus augue venenatis ut. Fusce at rutrum tellus, ac elementum neque. In nec velit orci. Etiam purus felis, pellentesque sit amet tincidunt at, iaculis quis erat. Morbi imperdiet sodales sapien nec rhoncus. Donec placerat mi et libero iaculis, id maximus est vestibulum. Etiam augue augue, auctor at ornare eget, porta ac nisl. Aliquam et mattis dolor, et aliquet ligula.</p>
+										
+										<p>Nam id ligula tristique, porta dolor ac, pretium leo. Maecenas scelerisque vulputate dapibus. Quisque sodales tincidunt sapien, eu consequat erat tempus et. Nullam ipsum est, interdum quis posuere sed, imperdiet quis nisi. pulvinar est at, commodo mauris. Nunc in mollis erat. Integer aliquet orci non auctor pretium.Proin quis justo est. Vestibulum imperdiet leo sit amet tortor suscipit, id cursus ligula pharetra. Uctus ac eros a, faucibus iaculis quam. Nam non iaculis justo. Donec maximus varius velit.</p>
+							
+										<p>Sed ultricies posuere magna elementum laoreet. Suspendisse elementum sagittis nisl, id pellentesque purus auctor finibus. Donec elementum quam est, a condimentum diam tempor ac. Sed quis magna lobortis, pulvinar est at, commodo mauris. Nunc in mollis erat. Integer aliquet orci non auctor pretium. Pellentesque eu nisl augue. Curabitur vitae est ut sem luctus tristique. Suspendisse euismod sapien facilisis tellus aliquam pellentesque.</p>
+										
+										<p>Viverra justo, eu placerat urna. faucibus iaculis quam. Nam non iaculis justoVestibulum blandit diam suscipit nibh mattis ullamcorper. Nullam a condimentum nulla, ut facilisis enim. Aliquam sagittis ipsum ex, sed luctus augue venenatis ut. Fusce at rutrum tellus, ac elementum neque. In nec velit orci. Etiam purus felis, pellentesque sit amet tincidunt at, iaculis quis erat. Morbi imperdiet sodales sapien nec rhoncus. Donec placerat mi et libero iaculis, id maximus est</p>
+									</div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="students">
+									<div class="ed_inner_dashboard_info">
+										<div class="ed_course_single_info">
+											<h2>total students :- <span>{{count}}</span></h2>
+											
+											{% for item in students %}
+											<div class="ed_add_students">
+												<img src="http://placehold.it/50X50" alt="">
+												<span>{{item.student_id}}</span>
+												<p>new student</p>
+											</div> 
+
+											{% endfor %}
+										
+											
+											
+											
+										</div>
+									</div>
+								</div>
+								<div role="tabpanel" class="tab-pane active" id="news">
+									<div class="ed_course_tabconetent">
+										<h2>course announcement</h2>
+										<h5>some recent news about this course....</h5>
+										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vehicula mauris ac facilisis congue. Fusce sem enim, rhoncus volutpat condimentum ac, placerat semper ligula. Suspendisse in viverra justo, eu placerat urna. Vestibulum blandit diam suscipit nibh mattis ullamcorper. Nullam a condimentum nulla, ut facilisis enim. Aliquam sagittis ipsum ex, sed luctus augue venenatis ut. Fusce at rutrum tellus, ac elementum neque. In nec velit orci. Etiam purus felis, pellentesque sit amet tincidunt at, iaculis quis erat. Morbi imperdiet sodales sapien nec rhoncus. Donec placerat mi et libero iaculis, id maximus est vestibulum. Etiam augue augue, auctor at ornare eget, porta ac nisl. Aliquam et mattis dolor, et aliquet ligula.</p>
+										
+										<p>Nam id ligula tristique, porta dolor ac, pretium leo. Maecenas scelerisque vulputate dapibus. Quisque sodales tincidunt sapien, eu consequat erat tempus et. Nullam ipsum est, interdum quis posuere sed, imperdiet quis nisi. pulvinar est at, commodo mauris. Nunc in mollis erat. Integer aliquet orci non auctor pretium.Proin quis justo est. Vestibulum imperdiet leo sit amet tortor suscipit, id cursus ligula pharetra. Uctus ac eros a, faucibus iaculis quam. Nam non iaculis justo. Donec maximus varius velit.</p>
+							
+										<p>Sed ultricies posuere magna elementum laoreet. Suspendisse elementum sagittis nisl, id pellentesque purus auctor finibus. Donec elementum quam est, a condimentum diam tempor ac. Sed quis magna lobortis, pulvinar est at, commodo mauris. Nunc in mollis erat. Integer aliquet orci non auctor pretium. Pellentesque eu nisl augue. Curabitur vitae est ut sem luctus tristique. Suspendisse euismod sapien facilisis tellus aliquam pellentesque.</p>
+										
+										<p>Viverra justo, eu placerat urna. faucibus iaculis quam. Nam non iaculis justoVestibulum blandit diam suscipit nibh mattis ullamcorper. Nullam a condimentum nulla, ut facilisis enim. Aliquam sagittis ipsum ex, sed luctus augue venenatis ut. Fusce at rutrum tellus, ac elementum neque. In nec velit orci. Etiam purus felis, pellentesque sit amet tincidunt at, iaculis quis erat. Morbi imperdiet sodales sapien nec rhoncus. Donec placerat mi et libero iaculis, id maximus est</p>
+															</div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="events">
+									<div class="ed_course_single_info">
+										<h2>total assessment on this course :-<span>{{assessments_count}}</span></h2>
+										<div class="ed_course_single_inner_tab">
+											<div role="tabpanel">
+												<!-- Nav tabs -->
+												<ul class="nav nav-tabs" role="tablist">
+													<li role="presentation" class="active"><a href="#upcoming" aria-controls="upcoming" role="tab" data-toggle="tab">upcoming</a></li>
+													<li role="presentation"><a href="#past" aria-controls="past" role="tab" data-toggle="tab">past</a></li>
+												</ul>
+												<!-- Tab panes -->
+												<div class="tab-content">
+													<div role="tabpanel" class="tab-pane active" id="upcoming">
+													
+													{% for item in assessments_up %}
+													
+														<div class="ed_course_event">
+								
+															<h5><b><a href="/addQuestion?id={{item.id}}">{{item.name}}</a> </b><span><a href="" class="muted pull-right" style="padding-right:5px;">Attempt</a></span></h5>
+															
+															<p><span>Start Date :-</span> {{item.start_date}}</p>
+															<p><span>Due on :-</span> {{item.due_date}}</p>
+															<p><span>Description:-</span>{{item.description}}</p>
+														</div>
+														
+													
+													{% endfor%}	
+												</div>
+													<div role="tabpanel" class="tab-pane" id="past">
+													{% for item in assessments_pa %}
+													
+													<div class="ed_course_event">
+								
+														<h5><b><a href="/addQuestion?id={{item.id}}">{{item.name}}</a> </b><span><a href="{% url 'edit_assessment' item.id %}" class="muted pull-right">Edit</a></span><span><a href="{% url 'edit_assessment' item.id %}" class="muted pull-right" style="padding-right:5px;">Delete</a></span></h5>
+															
+														<p><span>Start Date :-</span> {{item.start_date}}</p>
+														<p><span>Due on :-</span> {{item.due_date}}</p>
+														<p><span>Description:-</span>{{item.description}}</p>
+													</div>
+														
+													
+													{% endfor%}	
+												</div>					
+												</div>
+											</div>
+										</div><!--tab End-->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div><!--tab End-->
+				</div>	
+				<!-- <div class="ed_time_executor ed_toppadder40">
+					<ul>
+						<li><a href="course_lesson.html">lessons</a> <span>estimated time</span></li>
+						<li><a class="collapsed" data-toggle="collapse" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">development overview <span><i class="fa fa-plus"></i></span></a></li>
+						<div id="collapseSix" class="collapse" role="tabpanel" aria-labelledby="headingSix" data-parent="#accordion">
+                            <div class="card-body" style="padding:40px; ">
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                            </div>
+                            </div>
+                        <li><a href="course_lesson.html">basic html</a> <span>2Hourse 30 Minuts</span></li>
+						<li><a href="course_lesson.html">Basic CSS</a> <span>3Hourse 15 Minuts</span></li>
+						<li><a href="course_lesson.html">Advanced HTML + CSS</a> <span>1Hourse 30 Minuts</span></li>
+						<li><a href="course_lesson.html">Javascript</a> <span>2Hourse 45 Minuts</span></li>
+					</ul>
+                    
+				</div> -->
+                
+			</div>
+            <div class="col-md-1 col-lg-1">
+                </div>
+<!--Sidebar Start-->
+			<!-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+				<div class="sidebar_wrapper_upper">
+					<div class="sidebar_wrapper">
+						<aside class="widget widget_button">
+							<a href="purchase_course.html" class="ed_btn ed_green">Join this course</a>
+						</aside>
+						<aside class="widget widget_categories">
+							<h4 class="widget-title">related courses</h4>
+							<ul>
+								<li><a href="course_single.html"><i class="fa fa-chevron-right"></i> Management Prog.</a></li>
+								<li><a href="course_single.html"><i class="fa fa-chevron-right"></i> ethical heaking</a></li>
+								<li><a href="course_single.html"><i class="fa fa-chevron-right"></i> Mobile Capabilities</a></li>
+								<li><a href="course_single.html"><i class="fa fa-chevron-right"></i> Javascript Campus</a></li>
+								<li><a href="course_single.html"><i class="fa fa-chevron-right"></i> Coding Seminar</a></li>
+								<li><a href="course_single.html"><i class="fa fa-chevron-right"></i> html css</a></li>
+								<li><a href="course_single.html"><i class="fa fa-chevron-right"></i> it skills</a></li>
+								
+							</ul>
+						</aside>
+						<aside class="widget widget_sharing">
+							<h4 class="widget-title">share this course</h4>
+							<ul>
+								<li><a href="course_single.html"><i class="fa fa-facebook"></i> facebook</a></li>
+								<li><a href="course_single.html"><i class="fa fa-linkedin"></i> linkedin</a></li>
+								<li><a href="course_single.html"><i class="fa fa-twitter"></i> twitter</a></li>
+								<li><a href="course_single.html"><i class="fa fa-google-plus"></i> google+</a></li>
+							</ul>
+						</aside>
+					</div>
+				</div>
+			</div> -->
+			<!-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+				<div class="ed_sidebar_slider ed_bottompadder10">
+					<h3>popular courses</h3>
+					<div id="owl-demo3" class="owl-carousel owl-theme">
+						<div class="item">
+							<div class="ed_item_img">
+								<img src="http://placehold.it/263X166" alt="item1" class="img-responsive">
+							</div>
+							<div class="ed_mostrecomeded_course_slider ed_most_recomended_data">
+								<h4><a href="course_single.html">Project Learning </a><span>£25</span></h4>
+							</div>
+						</div>
+						<div class="item">
+							<div class="ed_item_img">
+							<img src="http://placehold.it/263X166" alt="item2" class="img-responsive">
+							</div>
+							<div class="ed_mostrecomeded_course_slider ed_most_recomended_data">
+								<h4><a href="course_single.html">billing seminar</a><span>free</span></h4>
+							</div>
+						</div>
+						<div class="item">
+							<div class="ed_item_img">
+							<img src="http://placehold.it/263X166" alt="item3" class="img-responsive">
+							</div>
+							<div class="ed_mostrecomeded_course_slider ed_most_recomended_data">
+								<h4><a href="course_single.html">User experience Jam </a><span>£38</span></h4>
+							</div>
+						</div>
+						<div class="item">
+							<div class="ed_item_img">
+							<img src="http://placehold.it/263X166" alt="item4" class="img-responsive">
+							</div>
+							<div class="ed_mostrecomeded_course_slider ed_most_recomended_data">
+								<h4><a href="course_single.html">Girls on Rails </a><span>free</span></h4>
+							</div>
+						</div>
+						<div class="item">
+							<div class="ed_item_img">
+								<img src="http://placehold.it/263X166" alt="item1" class="img-responsive">
+							</div>
+							<div class="ed_mostrecomeded_course_slider ed_most_recomended_data">
+								<h4><a href="course_single.html">Coding Seminar </a><span>free</span></h4>
+							</div>
+						</div>
+						<div class="item">
+							<div class="ed_item_img">
+							<img src="http://placehold.it/263X166" alt="item2" class="img-responsive">
+							</div>
+							<div class="ed_mostrecomeded_course_slider ed_most_recomended_data">
+								<h4><a href="course_single.html">Javascript Campus </a><span>£60</span></h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> -->
+<!--Sidebar End-->
+		</div>
+	</div>
+</div>
+
+{% endblock %}   
