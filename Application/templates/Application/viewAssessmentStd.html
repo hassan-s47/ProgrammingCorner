@@ -1,0 +1,43 @@
+{% extends 'Application/base.html' %}
+{% block title %}
+Manage Assessment
+{% endblock %}
+{% block banner %} Manage Questions{% endblock %}
+{% block content %}
+<div class="ed_transprentbg ed_toppadder80 ed_bottompadder80">
+	<div class="container">
+		
+      
+
+         <div class="ed_time_executor ed_toppadder40">
+            <ul>
+                <li><a href="#">Questions</a> <span></span></li>
+                </ul>
+         </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="woocommerce-checkout-payment">
+                <ul class="payment_methods methods">
+                    {% for item in items %}
+                    <li>
+                       
+                        <div class="ed_rate">
+                            <div class="custom-checkbox">
+                                <input type="radio" value="dbtc{{item.id}}" id="c{{item.id}}" name="checkout">
+                                <label for="c{{item.id}}"></label>
+                            </div>
+                        </div>
+                      
+                        Question {{item.id}}<br>Weightage {{item.weightage}}<span><a href="/studentDashboad.html/" class="muted pull-right">Attempt</a></span>
+                        <div class="payment_box" data-period="dbtc{{item.id}}">
+                            <p>{{item.statement}}</p>
+                        </div>
+                    </li>
+                    {% endfor%}
+                </ul>
+            </div>
+            
+        </div>
+     
+</div>
+  </div>
+{% endblock %}

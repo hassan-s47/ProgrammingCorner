@@ -11,9 +11,11 @@ urlpatterns = [
     path('register/', views.RegisterPage, name='register'),
     path('course/', views.courseDetails, name='course'),
     path('createAssessment/', teacherView.createAssessment, name='createAssessment'),
-     path('updateAssessment/', teacherView.updateAssessment, name='updateAssessment'),
+    path('updateAssessment/', teacherView.updateAssessment, name='updateAssessment'),
     path('teacherAssessments/', views.viewAssessment, name='viewAssessment'),
-     path('addQuestion/', teacherView.addQuestion, name='addQuestion'),
+    path('addQuestion/', teacherView.addQuestion, name='addQuestion'),
+    path('viewAssessment/', teacherView.viewAssessment, name='viewAssessment'),
+    path('viewAssessmentStd/', studentView.viewAssessment, name='viewAssessmentStd'),
     path('manaegQuestions/', views.manaegQuestions, name='manaegQuestions'),
     path('login/', views.LoginPage, name='login'),
     path('logout/', views.LogoutUser, name='logout'),
@@ -31,11 +33,9 @@ urlpatterns = [
     path('viewClassStudent/<int:id>/',studentView.viewClassStudent,name='view_class_student'),
     path('deleteQuestion/<int:id>/',teacherView.RemoveQuestion,name='delete_question'),
     path('editQuestion/<int:id>/',teacherView.editQuestion,name='edit_question'),
-
     path('editAssessment/<int:id>/',teacherView.editAssessment,name='edit_assessment'),
-    
-     path('updateQuestion/',teacherView.updateQuestion,name='update_question'),
-     path('form/', BasicSampleFormView.as_view(template_name="Application/form.html"), name='codemirror-form'),
+    path('updateQuestion/',teacherView.updateQuestion,name='update_question'),
+    path('form/', BasicSampleFormView.as_view(template_name="Application/form.html"), name='codemirror-form'),
     path('response/',views.getResponse, name='response'),
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

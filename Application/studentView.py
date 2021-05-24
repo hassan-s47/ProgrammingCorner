@@ -16,7 +16,10 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime
 import json
 
+<<<<<<< HEAD
 # @ensure_csrf_cookie
+=======
+>>>>>>> 30182a3d1cf6906a39eef963c63ad0e0ee77036b
 class TempShow: # change class name
   
     def __init__(self,n,i,c,t,p):
@@ -102,3 +105,30 @@ def viewClassStudent(request,id):
     no_of_student=len(students_obj)
     lab_obj=LabRoom.objects.get(id=id)
     return (render(request,'Application/courseStudent.html',{"assessments_count":assessments_count, "assessments_up":assessments,"count":no_of_student,"assessments_pa":assessments_pa,"labdetail":lab_obj,"students":students_obj}))
+
+
+def viewAssessment(request):
+    if request.method!="POST":
+         #form is not submitted 
+        assessment_id1 = request.GET.get("id")
+        print(assessment_id1)
+        items = Question.objects.all().filter(assessment_id=assessment_id1)
+        print(items)
+        return(render(request,'Application/viewAssessmentStd.html', {"items":items, "assessment_id":assessment_id1}))
+    else:
+        assessment_id1 = request.POST.get("id")
+        print("Assessment ID",assessment_id1)
+        statement = request.POST.get("statement")
+        weightage = request.POST.get("weightage")
+        postData=json.loads(request.POST.get('DataSend'))
+        question=Question()
+        assessment_obj = Assessment.objects.all().get(id=assessment_id1)
+        question=question.addQuestion(assessment_obj, statement, weightage)
+        for items in postData:
+            input=items['input']
+            output=items['output']
+            testCase=TestCase()
+            testCase.addTestCase(question, input, output)
+
+        items = Question.objects.all().filter(assessment_id=assessment_id1)
+        return(render(request,'Application/viewAssessmentStd.html', {"items":items, "assessment_id":assessment_id1}))
