@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import ensure_csrf_cookie
 from datetime import datetime
 import json
-
+import numpy as np
 @ensure_csrf_cookie
 
 
@@ -57,13 +57,15 @@ def RemoveClass(request,id):
     
 def ViewScrapper(request):
     context={}
+    
     if request.method=="POST":
         topicname=request.POST.get("topic")
+        assessment_id=request.POST.get("assessment_id")
         print(topicname)
         
         sc = Scrapper()
 
-        results = sc.getquestionlist("Loops")
+        results = sc.getquestionlist(topicname)
         questionlist = []
         if results is not None:
 
@@ -71,8 +73,8 @@ def ViewScrapper(request):
                 questionlist.append(res.get_attribute ("innerText"))
                             
         sc.driver.quit()
-        context = {'questionlist': questionlist}   
-        return(render(request, 'Application/scraperView.html', context))
+        context = {'questionlist': questionlist,"assessment_id":assessment_id}   
+        return(render(request, 'Application/scraperView.html',context))
 
    
     return(render(request, 'Application/scraperView.html', context))
@@ -190,7 +192,6 @@ def viewClass(request,id):
     assessments=Assessment.objects.all().filter(course_id=id,due_date__gte = datetime.now())
     assessments_pa=Assessment.objects.all().filter(course_id=id,due_date__lt = datetime.now())
     assessments_count=Assessment.objects.all().filter(course_id=id).count()
-    print(assessments_pa)
     students_obj=student_Class.objects.all().filter(class_id=id)
     no_of_student=len(students_obj)
     lab_obj=LabRoom.objects.get(id=id)
