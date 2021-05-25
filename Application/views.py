@@ -26,13 +26,19 @@ class CompilerForm(FormView):
     template_name = 'Application/form.html'
     form_class = SampleForm
     success_url = "/dashboard"
+    studentID = ""
+    # def get(self, request, *args,**kwargs):
+    #     print(self.kwargs.get("id"))
+    #     self.id = self.kwargs.get(id)
+    #     return super(CompilerForm, self).get(request, *args)
 
-    def getContext(self,question_id,student_id):
-        self.questionID = question_id
-        self.studentID = student_id
+    def get_context_data(self,**kwargs):
+        context = super(CompilerForm, self).get_context_data(**kwargs)
+        print(self.studentID)
+        context['id'] = self.kwargs.get('id')
+        return context
 
-    def get_success_url(self):
-        return reverse('codemirror-form',kwargs = {"question_id": self.questionID, "student_id": self.studentID})
+   
 
 
 def getResponse(request):
