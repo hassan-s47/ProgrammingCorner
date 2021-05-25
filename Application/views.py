@@ -27,10 +27,7 @@ class CompilerForm(FormView):
     form_class = SampleForm
     success_url = "/dashboard"
     studentID = ""
-    # def get(self, request, *args,**kwargs):
-    #     print(self.kwargs.get("id"))
-    #     self.id = self.kwargs.get(id)
-    #     return super(CompilerForm, self).get(request, *args)
+  
 
     def get_context_data(self,**kwargs):
         context = super(CompilerForm, self).get_context_data(**kwargs)
@@ -43,6 +40,8 @@ class CompilerForm(FormView):
         return context
 
    
+
+
 
 
 def getResponse(request):
