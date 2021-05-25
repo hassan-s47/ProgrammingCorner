@@ -32,7 +32,11 @@ class CompilerForm(FormView):
     def get_context_data(self,**kwargs):
         context = super(CompilerForm, self).get_context_data(**kwargs)
         print(self.studentID)
+        id = self.kwargs.get("id")
+        question = Question.objects.filter(id = id).get()
+        context["question"] = question
         context['id'] = self.kwargs.get('id')
+        print(question.statement)
         return context
 
    
