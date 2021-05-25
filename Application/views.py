@@ -47,6 +47,7 @@ class CompilerForm(FormView):
 def getResponse(request):
     data=request.POST.get("code")
     inp  = request.POST.get("input")
+    
     print(data,inp)
     compiler=Compiler(data,inp)
     output=compiler.run(inp)

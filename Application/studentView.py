@@ -1,4 +1,6 @@
 # write all functions related to student here\
+from django.http.response import HttpResponse
+from Application.compiler import Compiler
 from Application.views import CompilerForm
 from .forms import CreateClassForm
 from django.http import HttpResponseRedirect
@@ -133,3 +135,21 @@ def viewAssessment(request):
 
 def attemptQuestion(request,id):
     return CompilerForm.as_view(template_name = "form.html")
+
+def submitCode(request):
+    print("hello")
+    code=request.POST.get("code")
+    questionID=request.POST.get("questionID")
+    output=runTestCases(code,questionID)
+    
+    return HttpResponse(json.dumps({'output' : output}), content_type='application/json')
+
+def runTestCases(code,questionID):
+    
+    testCasesList=TestCase.objects.all().filter(question_id=questionID)
+
+    compiler=Compiler(code,"fgds")
+    for test in testCasesList:
+        result=compiler.runTestCase(test.input_String,test.output_String)
+        print(result)
+    return True
