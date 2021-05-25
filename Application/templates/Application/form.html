@@ -10,6 +10,7 @@ Solve Assessment
 <div class="container">
   <div class="row">
     <div class="col-md-12">
+      <h2>  <p>Question: {{id}}</p></h2>
     <h2>Statement</h2>
     <textarea class="form-control" rows="5">
 {{question.statement}}
@@ -19,11 +20,12 @@ Solve Assessment
   <div class = "row">
     <div class="col-md-8" style=" padding-top:23px;">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-      <p>Question ID: {{id}}</p>
+    
       <form style="border: 1px solid black;">
           {% csrf_token %}
           {{ form.as_p }}
           <button type="submit" value = "Run" id="runBtn" class="btn btn-primary" onclick='fun()'><i class="fa fa-play"></i> Run</button>
+          <button type="submit" value = "Submit" id="runBtn" class="btn btn-success" ><i class="fa fa-upload"></i> Submit</button>
           
       </form>
       
