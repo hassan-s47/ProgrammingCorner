@@ -29,13 +29,17 @@ class Compiler:
             exec_str = "" + shlex.quote(self.exe_file) + " "+ shlex.quote(self.in_file)
             proc1 =  proc = subprocess.Popen( exec_str, stdout = subprocess.PIPE, stderr=subprocess.PIPE, shell = True)
             try:
-                (out1,err1) = proc1.communicate(timeout=15,input = stdin_str.encode())
+                print(stdin_str.encode())
+                (out1,err1) = proc1.communicate(timeout= 5,input = stdin_str.encode())
+                print(out1,err1)
                 self.removeFiles()
             except:
                 out1 = ''
                 err1 = b'Timeout Error'
             if err1 == b'':
+               print(out1.decode())
                return out1.decode()
+               
             else:
                return err1.decode()
         else:

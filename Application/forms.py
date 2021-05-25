@@ -20,3 +20,4 @@ class CreateClassForm(forms.Form):
 
 class SampleForm(forms.Form):
     foo = CodeMirrorField(label="Code", required=True,config_name="javascript")
+  
