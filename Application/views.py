@@ -25,23 +25,17 @@ import json
 class CompilerForm(FormView):
     template_name = 'Application/form.html'
     form_class = SampleForm
+    success_url = "/dashboard"
+    studentID = ""
+  
 
+    def get_context_data(self,**kwargs):
+        context = super(CompilerForm, self).get_context_data(**kwargs)
+        print(self.studentID)
+        context['id'] = self.kwargs.get('id')
+        return context
 
-    def getContext(self,question_id,student_id):
-        self.questionID = question_id
-        self.studentID = student_id
-
-    def get(self,request,*args,**kwargs):
-        id=request.GET.get("id")
-        print(id)
-        context={
-            "id":id,
-        }
-        return render(request,'Application/form.html',context)
-        
-
-    def get_success_url(self):
-        return reverse('codemirror-form',kwargs = {"question_id": self.questionID, "student_id": self.studentID})
+   
 
 
 
