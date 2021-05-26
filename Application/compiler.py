@@ -10,41 +10,33 @@ class Compiler:
         self.code_file = os.path.join(filedir, filename+'.cpp')
         self.exe_file = os.path.join(filedir, filename+'.exe')
         self.in_file = os.path.join(filedir, filename+'_input.txt')
-        print(self.code_file,self.exe_file)
+       
         with open(self.code_file, 'w') as f:
             f.write(code)
-        
-        with open(self.in_file, 'w') as f:
-            f.write(ins)
         
 
             
 
     def run(self,stdin_str):
         compile_str = "g++ " + shlex.quote(self.code_file) + " -o " + shlex.quote(self.exe_file)
-        proc = subprocess.Popen(compile_str, stdout = subprocess.PIPE, stderr=subprocess.PIPE, shell = True)
+        stdin_str = stdin_str.encode()
+        proc = subprocess.Popen(compile_str,  stdout = subprocess.PIPE, stderr=subprocess.PIPE, shell = True)
         (out,err) = proc.communicate(timeout=15)
         if err == b'':
             print("Compilation Succeeded.")
-            exec_str = "" + shlex.quote(self.exe_file) + " "+ shlex.quote(self.in_file)
-            proc1 =  proc = subprocess.Popen( exec_str, stdout = subprocess.PIPE, stderr=subprocess.PIPE, shell = True)
+            exec_str = "" + shlex.quote(self.exe_file)
+            proc1 =  proc = subprocess.Popen( exec_str, stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr=subprocess.PIPE, shell = True)
             try:
-                print(stdin_str.encode())
-                (out1,err1) = proc1.communicate(timeout= 5,input = stdin_str.encode())
-                print(out1,err1)
-                self.removeFiles()
+                (out1,err1) = proc1.communicate(timeout=15,input = stdin_str)
             except:
                 out1 = ''
                 err1 = b'Timeout Error'
             if err1 == b'':
-               print(out1.decode())
-               return out1.decode()
-               
+                return out1.decode()
             else:
-               return err1.decode()
+                return err1.decode()
         else:
             return err.decode()
-            print("temp")
     
     
     def removeFiles(self):
