@@ -13,7 +13,7 @@ Create Assessment
 					<h3>Create Assessment</h3>
 				</div>
 			</div>
-            <form id="AssessmentForm" action="" method="post">
+            <form id="AssessmentForm" action="" method="post" onsubmit="return verify()">
                 {% csrf_token %}
 			<div class="ed_contact_form ed_toppadder60">
 				<div class="col-lg-6 col-md-6 col-sm-12">
@@ -60,6 +60,17 @@ Create Assessment
 
 
   </div>
-  
+  <script>
+ function verify()
+ {
+	 course=document.getElementById('courseId').value;
+	if(course=='Select Course')
+	{	alert('Please create a labroom first')
+	 return false;}
+	else
+	return true;
+ }
+
+  </script>
 
 {% endblock %}

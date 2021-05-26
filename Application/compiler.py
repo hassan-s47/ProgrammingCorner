@@ -56,9 +56,10 @@ class Compiler:
 
     
     def runTestCase(self,testCaseInput, testCaseOutput):
-        
+        print("here")
         output = self.run(testCaseInput)
-        if output == testCaseOutput:
+        print(testCaseOutput)
+        if output == testCaseOutput.strip():
             return True
         else:
             return False

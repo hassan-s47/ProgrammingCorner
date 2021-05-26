@@ -26,7 +26,7 @@ Manage Assessment
                                 <label for="c{{item.id}}"></label>
                             </div>
                         </div>
-                        Question {{item.id}}<br>Weightage {{item.weightage}}<span><a href="/form/{{item.id}}" class="muted pull-right">Attempt</a></span>
+                        Question {{item.id}}<br>Weightage  {{item.weightage}}<span>{% if not item.flag %}<a href="/form/{{item.id}}" class="muted pull-right">Attempt</a> {% else %} <p class="muted pull-right">Submitted</p> {%endif %} </span>
                         <div class="payment_box" data-period="dbtc{{item.id}}">
                             <p>{{item.statement}}</p>
                         </div>

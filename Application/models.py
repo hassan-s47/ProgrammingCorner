@@ -1,4 +1,5 @@
 
+import datetime
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.signals import post_save
@@ -15,10 +16,8 @@ class CustomUser(AbstractUser):
     def dologin(self,email_obj,username,password,request):
         #we have use AbstractUSer of django and builtin function ling authentication and for maintaining sessions 
         #so thats why we are using EmailBackend as middleware for authenticating User
-        user=email_obj.authenticate(request,username=request.POST.get("email"),password=request.POST.get("password"))
-                
+        user=email_obj.authenticate(request,username=request.POST.get("email"),password=request.POST.get("password"))   
        #emal baackend will return a user object if successfully login otherwise None
-
         return user
     def changePassword(self,userid):
         pass
@@ -100,7 +99,7 @@ class LabRoom(models.Model):
     classCode = models.CharField(max_length=10,unique=True)
     objects=models.Manager()
 
-class student_Class(models.Model):  
+class student_Class(models.Model):  # associative entity
     id = models.AutoField(primary_key=True)
     student_id=models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     class_id=models.ForeignKey(LabRoom,  on_delete=models.CASCADE)
@@ -163,7 +162,6 @@ class TestCase(models.Model):
     output_String = models.CharField(max_length=200)
 
     def addTestCase(self, question_id, input, output):
-        testCase=TestCase()
         testCase=TestCase(question_id=question_id, input_String=input, output_String=output)
         testCase.save()
     def deleteTestCase(self,question_id):
@@ -176,12 +174,34 @@ class TestCase(models.Model):
 
 
 class Submission(models.Model):
-    code = ""
-    isSubmitted = False
-    assessment_id = ""
-    question_id = ""
-    date = ""
-    time = ""
+    code = models.CharField(max_length=5000)
+    student= models.ForeignKey(CustomUser, default = None, on_delete=models.CASCADE)
+    isSubmitted =  models.BooleanField(default=False)
+    question_id = models.ForeignKey(Question,default = None, on_delete=models.CASCADE)
+    date=models.DateTimeField()
+
+    def make_submission(self,student,question_id,codee,isSubmitted):
+        student_obj=CustomUser.objects.all().filter(id=student).get()
+        question_obj=Question.objects.all().filter(id=question_id).get()
+        submission = Submission(code=codee,student=student_obj,isSubmitted=isSubmitted,question_id=question_obj,date=datetime.datetime.now());
+        submission.save()
+    def update_submission(self,student,question_id,codee,isSubmitted):
+         submission_obj=Submission.objects.get(student_id=student,question_id=question_id)
+         submission_obj.codee=codee
+         submission_obj.date=datetime.datetime.now()
+         submission_obj.isSubmitted=isSubmitted
+         submission_obj.save()
+    
+    
+class Marks(models.Model):
+    questionID = models.ForeignKey(Question,default = None, on_delete=models.CASCADE)
+    student=models.ForeignKey(CustomUser, default = None, on_delete=models.CASCADE)
+    obtainedMarks=models.IntegerField(null=False)
+    def save_Marks(self,question,student,obtainedMarks):
+        student_obj=CustomUser.objects.all().filter(id=student).get()
+        question_obj=Question.objects.all().filter(id=question).get()
+        marks=Marks(questionID=question_obj,student=student_obj,obtainedMarks=obtainedMarks)
+        marks.save()
 
 @receiver(post_save,sender=CustomUser)
 def create_user_profile(sender,instance,created,**kwargs):

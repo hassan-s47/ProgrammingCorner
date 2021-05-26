@@ -32,6 +32,7 @@ urlpatterns = [
     path('viewClass/<int:id>/',teacherView.viewClass,name='view_class'),
     path('viewClassStudent/<int:id>/',studentView.viewClassStudent,name='view_class_student'),
     path('deleteQuestion/<int:id>/',teacherView.RemoveQuestion,name='delete_question'),
+    path('deleteAssessment/<int:id>/',teacherView.deleteAssessment,name='delete_assessment'),
     path('editQuestion/<int:id>/',teacherView.editQuestion,name='edit_question'),
     path('editAssessment/<int:id>/',teacherView.editAssessment,name='edit_assessment'),
     path('updateQuestion/',teacherView.updateQuestion,name='update_question'),

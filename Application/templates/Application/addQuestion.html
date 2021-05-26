@@ -98,7 +98,7 @@ Manage Assessment
                
       
             <div id="testCasePush class="col-md-12">
-            <h3>Test Cases</h3>
+            <h3 style="font-weight:700; font-size:16px;">Test Cases</h3>
             <table class="table table-bordered" id="testCase" name="testcase">
                 <thead>
                     <tr>
@@ -160,6 +160,13 @@ Manage Assessment
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+    $(function() {
+  $(document ).on("click","#example button.iAddbutton",function() {
+    let tr = $(this).closest('tr');
+   alert(tr)
+    
+  });
+});
    function addTestCase(){
    event.preventDefault(); // Stop the form from causing a page refresh.
         var inputTestcase = $('#testCaseInput').val();
@@ -181,6 +188,7 @@ Manage Assessment
         $("table tbody tr").each(function(index) {
             inputTestcase = $(this).find('.Input').text();
             outputTestcase = $(this).find('.Output').text();
+           
             if(inputTestcase == null || outputTestcase == null){
                 alert('Plese fill both fields.');
             }

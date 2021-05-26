@@ -155,7 +155,7 @@ def editQuestion(request,id):
         if request.method!="POST":
             item=Question.objects.get(id=id)
             testcases=TestCase.objects.all().filter(question_id=id)
-            print(item.statement)
+            print(testcases)
             return (render(request,'Application/editQuestion.html', {"Question":item, "TestCase":testcases,"question_id":id}))
         else:
             return redirect('/dashboard/')
@@ -222,3 +222,9 @@ def viewAssessment(request):
 
         items = Question.objects.all().filter(assessment_id=assessment_id1)
         return(render(request,'Application/viewAssessment.html', {"items":items, "assessment_id":assessment_id1}))
+def deleteAssessment(request, id):
+
+    assessment = Assessment.objects.get(pk=id)
+    assessment.delete()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    

@@ -5,7 +5,7 @@ from Application.views import CompilerForm
 from .forms import CreateClassForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import LabRoom,Teacher,CustomUser
+from .models import LabRoom, Marks, Submission,Teacher,CustomUser
 from django.shortcuts import render, redirect
 from django.contrib import messages
 import random, string
@@ -106,6 +106,13 @@ def viewClassStudent(request,id):
     lab_obj=LabRoom.objects.get(id=id)
     return (render(request,'Application/courseStudent.html',{"assessments_count":assessments_count, "assessments_up":assessments,"count":no_of_student,"assessments_pa":assessments_pa,"labdetail":lab_obj,"students":students_obj}))
 
+class ViewQuestionStatus:
+    def __init__(self,question,flag):
+        self.id = question.id
+        self.weightage = question.weightage
+        self.statement = question.statement
+        self.flag = flag
+
 
 def viewAssessment(request):
     if request.method!="POST":
@@ -113,8 +120,19 @@ def viewAssessment(request):
         assessment_id1 = request.GET.get("id")
         print(assessment_id1)
         items = Question.objects.all().filter(assessment_id=assessment_id1)
-        print(items)
-        return(render(request,'Application/viewAssessmentStd.html', {"items":items, "assessment_id":assessment_id1}))
+        itemList = []
+        for item in items:
+            result = Submission.objects.all().filter(question_id=item.id,student_id=request.user.id,isSubmitted=1)
+    
+            if(len(result) > 0):
+                item = ViewQuestionStatus(item,True)
+                itemList.append(item)
+            else:
+                item = ViewQuestionStatus(item,False)
+                itemList.append(item)
+        print(itemList[0].flag)
+                
+        return(render(request,'Application/viewAssessmentStd.html', {"items":itemList, "assessment_id":assessment_id1}))
     else:
         assessment_id1 = request.POST.get("id")
         print("Assessment ID",assessment_id1)
@@ -137,19 +155,31 @@ def attemptQuestion(request,id):
     return CompilerForm.as_view(template_name = "form.html")
 
 def submitCode(request):
-    print("hello")
     code=request.POST.get("code")
     questionID=request.POST.get("questionID")
-    output=runTestCases(code,questionID)
-    
-    return HttpResponse(json.dumps({'output' : output}), content_type='application/json')
+    print(code)
+    marksgained,total=runTestCases(code,questionID)
+    submission=Submission()
+    user=request.user.id
+    submissionExist=Submission.objects.all().filter(question_id=questionID,student_id=user)
+   
+    if len(submissionExist)==0:
+        submission.make_submission(user,questionID,code,True)
+    else:
+        submission.update_submission(user,questionID,code,True)
+    marks=Marks()
+    marks.save_Marks(questionID,request.user.id,marksgained)
+    return HttpResponse(json.dumps({'output' : marksgained}), content_type='application/json')
 
 def runTestCases(code,questionID):
     
     testCasesList=TestCase.objects.all().filter(question_id=questionID)
-
     compiler=Compiler(code,"fgds")
+    marksGained=0
+    result=True
     for test in testCasesList:
         result=compiler.runTestCase(test.input_String,test.output_String)
-        print(result)
-    return True
+        if result==True:
+            marksGained=marksGained+1
+
+    return marksGained,len(testCasesList)
