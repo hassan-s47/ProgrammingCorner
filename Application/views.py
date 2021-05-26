@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from .models import CustomUser
+from .models import CustomUser, Submission
 from django.shortcuts import render, redirect
 from django.template import loader
 from django.contrib.auth.forms import UserCreationForm
@@ -47,7 +47,15 @@ class CompilerForm(FormView):
 def getResponse(request):
     data=request.POST.get("code")
     inp  = request.POST.get("input")
-    print(data,inp)
+    questionID=request.POST.get("questionID")
+    submission=Submission()
+    user=request.user.id
+    submissionExist=Submission.objects.all().filter(question_id=questionID,student_id=user)
+   
+    if len(submissionExist)==0:
+        submission.make_submission(user,questionID,data,False)
+    else:
+        submission.update_submission(user,questionID,data,False)
     compiler=Compiler(data,inp)
     output=compiler.run(inp)
     return HttpResponse(json.dumps({'output' : output}), content_type='application/json')

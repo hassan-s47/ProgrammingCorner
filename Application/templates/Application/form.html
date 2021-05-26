@@ -10,9 +10,9 @@ Solve Assessment
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <h2>  <p>Question: {{id}}</p></h2>
-    <h2>Statement</h2>
-    <textarea class="form-control" rows="5">
+      <span><a  class="muted pull-right" style="padding-right:5px;">Marks :{{question.weightage}}</a></span>
+    <h4>Statement</h4>
+    <textarea class="form-control" rows="5" readonly>
 {{question.statement}}
     </textarea>
   </div>
@@ -24,8 +24,9 @@ Solve Assessment
       <form style="border: 1px solid black;">
           {% csrf_token %}
           {{ form.as_p }}
-          <button type="submit" value = "Run" id="runBtn" class="btn btn-primary" onclick='fun()'><i class="fa fa-play"></i> Run</button>
-          <button type="submit" value = "Submit" id="runBtn" class="btn btn-success" ><i class="fa fa-upload"></i> Submit</button>
+          <input type="hidden" name="questionID" id="questionID" required="required" value="{{ question.id }}">
+          <button type="submit" value = "Run" id="runBtn" class="btn btn-primary" name="run" onclick='fun()'><i class="fa fa-play"></i> Run</button>
+          <button type="submit" value = "Submit" id="subBtn" class="btn btn-success" name="submit" onclick='submitCode()' ><i class="fa fa-upload"></i> Submit</button>
           
       </form>
       
@@ -74,16 +75,11 @@ Solve Assessment
 
     foo_codemirror.setValue(
       `#include <iostream>
-#include <fstream>
 using namespace std;
 
 int main(int argc, char** argv)
 {
-  ifstream fin(argv[1]);
-  //start code here...
-  //use fin instead of cin
-
-
+  
   return 0;
 }`)
   
@@ -96,6 +92,7 @@ int main(int argc, char** argv)
       var data = {
       code : x,
       input : y,
+      questionID:document.getElementById('questionID').value,
       'csrfmiddlewaretoken': '{{ csrf_token }}'
     };
     $.ajax({
@@ -104,9 +101,41 @@ int main(int argc, char** argv)
       method: 'POST'
     }).then(function (response) {
       document.getElementById('code_output').value = response.output
-      document.getElementById('runBtn').style.display='block';
+      document.getElementById('runBtn').style.display='inline-block';
         
     })}
+
+    function submitCode()
+    {
+      if (confirm("Are You Sure You Want to Submit Code?")) {
+  txt = "You pressed OK!";
+
+      document.getElementById('subBtn').style.display='none';
+      document.getElementById('runBtn').style.display='none';
+      var x=  foo_codemirror.getValue();
+      var y = document.getElementById("code_input").value;
+      var data = {
+      code : x,
+      input : y,
+      questionID:document.getElementById('questionID').value,
+      'csrfmiddlewaretoken': '{{ csrf_token }}'
+    
+    };
+    console.log(data)
+    $.ajax({
+      url: '/submitcode/',
+      data: data,
+      method: 'POST'
+    }).then(function (response) {
+      document.getElementById('code_output').value = response.output
+      document.getElementById('runBtn').style.display='inline-block';
+      document.getElementById('subBtn').style.display='inline-block';
+        
+    })
+  } else {
+  txt = "You pressed Cancel!";
+}}
+
 
 </script>
 

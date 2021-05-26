@@ -10,24 +10,21 @@ class Compiler:
         self.code_file = os.path.join(filedir, filename+'.cpp')
         self.exe_file = os.path.join(filedir, filename+'.exe')
         self.in_file = os.path.join(filedir, filename+'_input.txt')
-        print(self.code_file,self.exe_file)
+       
         with open(self.code_file, 'w') as f:
             f.write(code)
-        
-        with open(self.in_file, 'w') as f:
-            f.write(ins)
         
 
             
 
     def run(self,stdin_str):
-        compile_str = "g++ " + shlex.quote(self.cpp_file) + " -o " + shlex.quote(self.exe_file)
+        compile_str = "g++ " + shlex.quote(self.code_file) + " -o " + shlex.quote(self.exe_file)
         stdin_str = stdin_str.encode()
         proc = subprocess.Popen(compile_str,  stdout = subprocess.PIPE, stderr=subprocess.PIPE, shell = True)
         (out,err) = proc.communicate(timeout=15)
         if err == b'':
             print("Compilation Succeeded.")
-            exec_str = "./" + shlex.quote(self.exe_file)
+            exec_str = "" + shlex.quote(self.exe_file)
             proc1 =  proc = subprocess.Popen( exec_str, stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr=subprocess.PIPE, shell = True)
             try:
                 (out1,err1) = proc1.communicate(timeout=15,input = stdin_str)
@@ -35,11 +32,11 @@ class Compiler:
                 out1 = ''
                 err1 = b'Timeout Error'
             if err1 == b'':
-                print(out1.decode())
+                return out1.decode()
             else:
-                print(err1.decode())
+                return err1.decode()
         else:
-            print(err.decode())
+            return err.decode()
     
     
     def removeFiles(self):
@@ -59,9 +56,10 @@ class Compiler:
 
     
     def runTestCase(self,testCaseInput, testCaseOutput):
-        
+        print("here")
         output = self.run(testCaseInput)
-        if output == testCaseOutput:
+        print(testCaseOutput)
+        if output == testCaseOutput.strip():
             return True
         else:
             return False
