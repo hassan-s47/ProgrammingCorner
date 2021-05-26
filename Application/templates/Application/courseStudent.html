@@ -16,7 +16,7 @@ Course Details
 			<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
 				<div class="ed_course_single_item">
 					<div class="ed_course_single_image">
-						<img src="http://placehold.it/806X387" alt="event image" />
+						<img src="https://gstatic.com/classroom/themes/img_backtoschool.jpg" alt="event image" />
 					</div>
 					<div class="ed_course_single_info">
 						<h2>{{labdetail.className}} <span></span></h2>
@@ -119,12 +119,14 @@ Course Details
 												<!-- Tab panes -->
 												<div class="tab-content">
 													<div role="tabpanel" class="tab-pane active" id="upcoming">
-													
+														{% if not assessments_up %}
+														<center></center><p>No Current Assessment to show</p></center>
+														{% else %}
 													{% for item in assessments_up %}
 													
 														<div class="ed_course_event">
 								
-															<h5><b><a href="/viewAssessmentStd?id={{item.id}}">{{item.name}}</a> </b><span><a href="" class="muted pull-right" style="padding-right:5px;">Attempt</a></span></h5>
+															<h5><b><a href="/viewAssessmentStd?id={{item.id}}">{{item.name}}</a> </b></h5>
 															
 															<p><span>Start Date :-</span> {{item.start_date}}</p>
 															<p><span>Due on :-</span> {{item.due_date}}</p>
@@ -133,8 +135,12 @@ Course Details
 														
 													
 													{% endfor%}	
+													{% endif %}	
 												</div>
 													<div role="tabpanel" class="tab-pane" id="past">
+														{% if not assessments_pa %}
+														<center></center><p>No Current Assessment to show</p></center>
+														{% else %}
 													{% for item in assessments_pa %}
 													
 													<div class="ed_course_event">
@@ -148,6 +154,7 @@ Course Details
 														
 													
 													{% endfor%}	
+													{% endif %}	
 												</div>					
 												</div>
 											</div>
