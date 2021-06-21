@@ -2,66 +2,76 @@
 from .forms import CreateClassForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .models import LabRoom,Teacher,CustomUser
+from .models import LabRoom, Teacher, CustomUser
 from django.shortcuts import render, redirect
 from django.contrib import messages
-import random, string
+import random
+import string
 from django.core.files.storage import FileSystemStorage
 from .scrap import Scrapper
-from .models import CustomUser, Student, LabRoom ,student_Class,Teacher, Assessment, Question, TestCase
+from .models import CustomUser, Marks, Student, LabRoom, student_Class, Teacher, Assessment, Question, TestCase
 from Application.EmailBackEnd import EmailBackEnd
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import ensure_csrf_cookie
 from datetime import datetime
 import json
+
+
 @ensure_csrf_cookie
-
-
 def CreateClass(request):
-    
-    if request.method=="POST":
-        className=request.POST.get("className")
-        tutor=request.user
-        t=Teacher()
-        s=t.createClass(className,tutor)
-        messages.success(request,"Successfully Added Class With Class Code : " + s)
+
+    if request.method == "POST":
+        className = request.POST.get("className")
+        tutor = request.user
+        t = Teacher()
+        s = t.createClass(className, tutor)
+        messages.success(
+            request, "Successfully Added Class With Class Code : " + s)
         return HttpResponseRedirect(reverse("dashboard"))
-            
+
     else:
         return HttpResponseRedirect(reverse("dashboard"))
+
+
 def TeacherChngeProfile(request):
-    if request.method=="POST":
+    if request.method == "POST":
 
-        profile_pic=request.FILES['profile_pic']
-        std_id=request.POST.get("std_id")
-        fs=FileSystemStorage()
-        filename=fs.save(profile_pic.name,profile_pic)
-        profile_pic_url=fs.url(filename)
-        t=Teacher()
-        t.changeProfile(std_id,profile_pic_url)
+        profile_pic = request.FILES['profile_pic']
+        std_id = request.POST.get("std_id")
+        fs = FileSystemStorage()
+        filename = fs.save(profile_pic.name, profile_pic)
+        profile_pic_url = fs.url(filename)
+        t = Teacher()
+        t.changeProfile(std_id, profile_pic_url)
         return HttpResponseRedirect(reverse("dashboard"))
 
     else:
-        return HttpResponseRedirect(reverse("dashboard")) 
+        return HttpResponseRedirect(reverse("dashboard"))
+
+
 def DashboardPage(request):
-    student_obj=CustomUser.objects.get(id=request.user.id)
-    student_obbj=Teacher.objects.get(admin=student_obj)
-    context = {'Classroom' : LabRoom.objects.filter(tutor=request.user),'student_obj':student_obbj}
+    student_obj = CustomUser.objects.get(id=request.user.id)
+    student_obbj = Teacher.objects.get(admin=student_obj)
+    context = {'Classroom': LabRoom.objects.filter(
+        tutor=request.user), 'student_obj': student_obbj}
     return(render(request, 'Application/dashboard.html', context))
-def RemoveClass(request,id):
-    t=Teacher()
+
+
+def RemoveClass(request, id):
+    t = Teacher()
     t.removeLab(id)
     return HttpResponseRedirect(reverse("dashboard"))
-    
+
+
 def ViewScrapper(request):
-    context={}
-    
-    if request.method=="POST":
-        topicname=request.POST.get("topic")
-        assessment_id=request.POST.get("assessment_id")
+    context = {}
+
+    if request.method == "POST":
+        topicname = request.POST.get("topic")
+        assessment_id = request.POST.get("assessment_id")
         print(topicname)
-        
+
         sc = Scrapper()
 
         results = sc.getquestionlist(topicname)
@@ -69,162 +79,184 @@ def ViewScrapper(request):
         if results is not None:
 
             for res in results:
-                questionlist.append(res.get_attribute ("innerText"))
-                            
-        sc.driver.quit()
-        context = {'questionlist': questionlist,"assessment_id":assessment_id}   
-        return(render(request, 'Application/scraperView.html',context))
+                questionlist.append(res.get_attribute("innerText"))
 
-   
+        sc.driver.quit()
+        context = {'questionlist': questionlist,
+            "assessment_id": assessment_id}
+        return(render(request, 'Application/scraperView.html', context))
+
     return(render(request, 'Application/scraperView.html', context))
 
 
 def createAssessment(request):
     items = LabRoom.objects.all().filter(tutor=request.user.id)
-    if request.method!="POST": #form is not submitted 
-        return(render(request, 'Application/createAssignment.html', {"items":items})) # show page only
+    if request.method != "POST":  # form is not submitted
+        # show page only
+        return(render(request, 'Application/createAssignment.html', {"items": items}))
     else:
-        courseId=request.POST.get("courseId")
-        name=request.POST.get("title")
-        startDate=request.POST.get("startDate")
-        dueDate=request.POST.get("dueDate")
-        description=request.POST.get("description")
-        assessment=Assessment()
-        assessment_id = assessment.addAssessment(courseId, name, startDate, dueDate, description)
+        courseId = request.POST.get("courseId")
+        name = request.POST.get("title")
+        startDate = request.POST.get("startDate")
+        dueDate = request.POST.get("dueDate")
+        description = request.POST.get("description")
+        assessment = Assessment()
+        assessment_id = assessment.addAssessment(
+            courseId, name, startDate, dueDate, description)
         items = Question.objects.all().filter(assessment_id=assessment_id)
-        #return(render(request,'Application/addQuestion.html', {"courseId":courseId, "items":items, "assessment":assessment}))
+        # return(render(request,'Application/addQuestion.html', {"courseId":courseId, "items":items, "assessment":assessment}))
         return redirect('/addQuestion?id=' + str(assessment_id))
+
 
 def addQuestion(request):
     print("EELO")
 
-    if request.method!="POST":
-         #form is not submitted 
+    if request.method != "POST":
+        #form is not submitted
         assessment_id1 = request.GET.get("id")
         print(assessment_id1)
         items = Question.objects.all().filter(assessment_id=assessment_id1)
         print(items)
-        return(render(request,'Application/addQuestion.html', {"items":items, "assessment_id":assessment_id1}))
+        return(render(request, 'Application/addQuestion.html', {"items": items, "assessment_id": assessment_id1}))
     else:
         assessment_id1 = request.POST.get("id")
-        print("Assessment ID",assessment_id1)
+        print("Assessment ID", assessment_id1)
         statement = request.POST.get("statement")
         weightage = request.POST.get("weightage")
-        postData=json.loads(request.POST.get('DataSend'))
-        question=Question()
+        postData = json.loads(request.POST.get('DataSend'))
+        question = Question()
         assessment_obj = Assessment.objects.all().get(id=assessment_id1)
-        question=question.addQuestion(assessment_obj, statement, weightage)
+        question = question.addQuestion(assessment_obj, statement, weightage)
         for items in postData:
-            input=items['input']
-            output=items['output']
-            testCase=TestCase()
+            input = items['input']
+            output = items['output']
+            testCase = TestCase()
             testCase.addTestCase(question, input, output)
 
         items = Question.objects.all().filter(assessment_id=assessment_id1)
-        return(render(request,'Application/addQuestion.html', {"items":items, "assessment_id":assessment_id1}))
+        return(render(request, 'Application/addQuestion.html', {"items": items, "assessment_id": assessment_id1}))
 
-def RemoveQuestion(request,id): 
-    print(request)  
-    q=Question()
+
+def RemoveQuestion(request, id):
+    print(request)
+    q = Question()
     q.removeQuestion(id)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
 def updateQuestion(request):
 
     assessment_id1 = request.POST.get("id")
-    print("qUESTION ID",assessment_id1)
+    print("qUESTION ID", assessment_id1)
     statement = request.POST.get("statement")
     weightage = request.POST.get("weightage")
-    postData=json.loads(request.POST.get('DataSend'))
-    question=Question()
-    # 
+    postData = json.loads(request.POST.get('DataSend'))
+    question = Question()
+    #
     question.editQuestion(assessment_id1, statement, weightage)
-    testCase=TestCase()
+    testCase = TestCase()
     testCase.deleteTestCase(assessment_id1)
     question = Question.objects.all().get(id=assessment_id1)
     for items in postData:
-        input=items['input']
-        output=items['output']
-        
+        input = items['input']
+        output = items['output']
+
         testCase.addTestCase(question, input, output)
 
     items = Question.objects.all().filter(assessment_id=assessment_id1)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-def editQuestion(request,id):
-    if id!=None:
-        if request.method!="POST":
-            item=Question.objects.get(id=id)
-            testcases=TestCase.objects.all().filter(question_id=id)
+
+def editQuestion(request, id):
+    if id != None:
+        if request.method != "POST":
+            item = Question.objects.get(id=id)
+            testcases = TestCase.objects.all().filter(question_id=id)
             print(testcases)
-            return (render(request,'Application/editQuestion.html', {"Question":item, "TestCase":testcases,"question_id":id}))
+            return (render(request, 'Application/editQuestion.html', {"Question": item, "TestCase": testcases, "question_id": id}))
         else:
             return redirect('/dashboard/')
-        
-        
+
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
 def updateAssessment(request):
-    courseId=request.POST.get("courseId")
-    ass_id=request.POST.get("assessment_id")
-    name=request.POST.get("title")
-    startDate=request.POST.get("startDate")
-    dueDate=request.POST.get("dueDate")
-    description=request.POST.get("description")
-    assessment=Assessment()
-    assessment_id = assessment.updateAssessment(ass_id,courseId, name, startDate, dueDate, description)
+    courseId = request.POST.get("courseId")
+    ass_id = request.POST.get("assessment_id")
+    name = request.POST.get("title")
+    startDate = request.POST.get("startDate")
+    dueDate = request.POST.get("dueDate")
+    description = request.POST.get("description")
+    assessment = Assessment()
+    assessment_id = assessment.updateAssessment(
+        ass_id, courseId, name, startDate, dueDate, description)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-def editAssessment(request,id):
+
+def editAssessment(request, id):
     lab = LabRoom.objects.all().filter(tutor=request.user.id)
-    if id!=None:
-        if request.method!="POST":
-            item=Assessment.objects.get(id=id)
-            return (render(request,'Application/editAssessment.html', {"Assessment":item,"assessment_id":id,"items":lab}))
+    if id != None:
+        if request.method != "POST":
+            item = Assessment.objects.get(id=id)
+            return (render(request, 'Application/editAssessment.html', {"Assessment": item, "assessment_id": id, "items": lab}))
         else:
             return redirect('/dashboard/')
-        
-        
+
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-def viewClass(request,id):
+
+def viewClass(request, id):
     now = datetime.now()
-    assessments=Assessment.objects.all().filter(course_id=id,due_date__gte = datetime.now())
-    assessments_pa=Assessment.objects.all().filter(course_id=id,due_date__lt = datetime.now())
-    assessments_count=Assessment.objects.all().filter(course_id=id).count()
-    students_obj=student_Class.objects.all().filter(class_id=id)
-    no_of_student=len(students_obj)
-    lab_obj=LabRoom.objects.get(id=id)
-    return (render(request,'Application/course.html',{"assessments_count":assessments_count, "assessments_up":assessments,"count":no_of_student,"assessments_pa":assessments_pa,"labdetail":lab_obj,"students":students_obj}))
+    assessments = Assessment.objects.all().filter(
+        course_id=id, due_date__gte=datetime.now())
+    assessments_pa = Assessment.objects.all().filter(
+        course_id=id, due_date__lt=datetime.now())
+    assessments_count = Assessment.objects.all().filter(course_id=id).count()
+    students_obj = student_Class.objects.all().filter(class_id=id)
+    no_of_student = len(students_obj)
+    lab_obj = LabRoom.objects.get(id=id)
+    return (render(request, 'Application/course.html', {"assessments_count": assessments_count, "assessments_up": assessments, "count": no_of_student, "assessments_pa": assessments_pa, "labdetail": lab_obj, "students": students_obj}))
+
 
 def viewAssessment(request):
-    if request.method!="POST":
-         #form is not submitted 
+    if request.method != "POST":
+        #form is not submitted
         assessment_id1 = request.GET.get("id")
         print(assessment_id1)
         items = Question.objects.all().filter(assessment_id=assessment_id1)
         print(items)
-        return(render(request,'Application/viewAssessment.html', {"items":items, "assessment_id":assessment_id1}))
+        return(render(request, 'Application/viewAssessment.html', {"items": items, "assessment_id": assessment_id1}))
     else:
         assessment_id1 = request.POST.get("id")
-        print("Assessment ID",assessment_id1)
+        print("Assessment ID", assessment_id1)
         statement = request.POST.get("statement")
         weightage = request.POST.get("weightage")
-        postData=json.loads(request.POST.get('DataSend'))
-        question=Question()
+        postData = json.loads(request.POST.get('DataSend'))
+        question = Question()
         assessment_obj = Assessment.objects.all().get(id=assessment_id1)
-        question=question.addQuestion(assessment_obj, statement, weightage)
+        question = question.addQuestion(assessment_obj, statement, weightage)
         for items in postData:
-            input=items['input']
-            output=items['output']
-            testCase=TestCase()
+            input = items['input']
+            output = items['output']
+            testCase = TestCase()
             testCase.addTestCase(question, input, output)
 
         items = Question.objects.all().filter(assessment_id=assessment_id1)
-        return(render(request,'Application/viewAssessment.html', {"items":items, "assessment_id":assessment_id1}))
+        return(render(request, 'Application/viewAssessment.html', {"items": items, "assessment_id": assessment_id1}))
+
+
 def deleteAssessment(request, id):
 
     assessment = Assessment.objects.get(pk=id)
     assessment.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    
+
+
+def viewResult(request):
+    marks = Marks.objects.all().filter()
+    if request.method != "POST":
+        return (render(request, 'Application/viewResult.html', {"Marks": marks}))
+    else:
+        return redirect('/dashboard/')

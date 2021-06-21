@@ -194,3 +194,10 @@ def runTestCases(code,questionID):
             marksGained=marksGained+1
 
     return marksGained,len(testCasesList)
+
+def viewResultStd(request):
+    marks = Marks.objects.all().filter(student = request.user)
+    if request.method != "POST":
+        return (render(request, 'Application/viewResultStd.html', {"Marks": marks}))
+    else:
+        return redirect('/dashboard/')

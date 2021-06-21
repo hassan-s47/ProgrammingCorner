@@ -1,0 +1,59 @@
+{% extends 'Application/base.html' %}
+{% block title%}
+Course Details
+{% endblock %}
+{% block banner %}
+{{labdetail.className}}
+{% endblock %}
+
+{% block content %} 
+
+
+<div class="ed_graysection ed_course_single ed_toppadder80 ed_bottompadder80">
+	<div class="container">
+		<div class="row">
+            <div class="col-md-1 col-lg-1"></div>
+			<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+				<div class="ed_course_single_item">
+					<div class="ed_course_single_image">
+						<img src="https://gstatic.com/classroom/themes/img_backtoschool.jpg" alt="event image" />
+					</div>
+					<div id="testCasePush" class="col-md-12">
+						<h3>Result</h3>
+						<table class="table table-bordered" id="testCase" name="testcase">
+							<thead>
+								<tr>
+								
+								  <th scope="col">Student</th>
+								  <th scope="col">Question ID</th>
+									<th scope="col">Obtained Marks</th>
+								</tr>
+							  </thead>
+							<tbody>
+								{% for item in marks %}
+								<tr>
+								  
+									<td class="Student" >{{item.student}}</td>
+									<td class="Question ID">{{item.questionID}}</td>
+									<td class="Obtained Marks">{{item.obtainedMarks}}</td>
+								</tr>
+								{% endfor%}
+							</tbody>
+						</table>
+						<center>
+							{% csrf_token %}
+							<button id="addQuestionToList" class="btn ed_btn btn-success">Done<i class="fa fa-save"></i> </button>
+						</center>
+					</div>
+
+					
+				</div>	
+                
+			</div>
+            <div class="col-md-1 col-lg-1">
+                </div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}   
