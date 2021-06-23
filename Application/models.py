@@ -187,7 +187,7 @@ class Submission(models.Model):
         submission.save()
     def update_submission(self,student,question_id,codee,isSubmitted):
          submission_obj=Submission.objects.get(student_id=student,question_id=question_id)
-         submission_obj.codee=codee
+         submission_obj.code=codee
          submission_obj.date=datetime.datetime.now()
          submission_obj.isSubmitted=isSubmitted
          submission_obj.save()

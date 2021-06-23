@@ -29,11 +29,30 @@ class CompilerForm(FormView):
     studentID = ""
     
     
-
+    def get(self, request, *args,**kwargs):
+        print(self.kwargs.get("id"))
+        self.studentID=request.user.id
+        return super(CompilerForm, self).get(request, *args)
     def get_context_data(self,**kwargs):
         context = super(CompilerForm, self).get_context_data(**kwargs)
-        print(self.studentID)
+        print("Student id",self.studentID)
         id = self.kwargs.get("id")
+        submissionData=Submission.objects.all().filter(student=self.studentID,question_id=id)
+        print(submissionData)
+        if len(submissionData)==0:
+            context['code']= """
+#include <iostream>
+using namespace std;
+
+int main(int argc, char** argv)
+{
+  
+  return 0;
+}"""
+        else:
+            code=submissionData.get().code;
+            context['code']=code
+
         question = Question.objects.filter(id = id).get()
         context["question"] = question
         self.get_form()
@@ -57,6 +76,7 @@ def getResponse(request):
     if len(submissionExist)==0:
         submission.make_submission(user,questionID,data,False)
     else:
+        print("CALLING UPDATE",data)
         submission.update_submission(user,questionID,data,False)
     compiler=Compiler(data,inp)
     output=compiler.run(inp)

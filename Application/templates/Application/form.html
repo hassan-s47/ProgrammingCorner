@@ -31,6 +31,7 @@ Solve Assessment
       </form>
       
       {% codemirror_field_css_assets form.foo %}
+     
       {% codemirror_field_js_assets form.foo %}
     </div>
     <div class = "col-md-4">
@@ -49,7 +50,12 @@ Solve Assessment
 </div>
 
 <script>
-    
+  function htmlDecode(input) {
+  var doc = new DOMParser().parseFromString(input, "text/html");
+  return doc.documentElement.textContent;
+}
+  var data=htmlDecode(`{{code}}`)
+
     var foo_codemirror = CodeMirror.fromTextArea(
         document.getElementById("id_foo"),
         {
@@ -73,15 +79,7 @@ Solve Assessment
     );
     
 
-    foo_codemirror.setValue(
-      `#include <iostream>
-using namespace std;
-
-int main(int argc, char** argv)
-{
-  
-  return 0;
-}`)
+    foo_codemirror.setValue(data)
   
 
     function fun()
