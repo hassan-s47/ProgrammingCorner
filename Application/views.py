@@ -36,7 +36,7 @@ class CompilerForm(FormView):
         id = self.kwargs.get("id")
         question = Question.objects.filter(id = id).get()
         context["question"] = question
-        self.get_form().
+        self.get_form()
         context['id'] = self.kwargs.get('id')
         print(question.statement)
         return context
