@@ -123,25 +123,31 @@ class ViewQuestionStatus:
         self.weightage = question.weightage
         self.statement = question.statement
         self.flag = flag
+        self.marks = 0
+    
+    def setMarks(self,marks):
+        self.marks = marks
+
 
 
 def viewAssessment(request):
     if request.method!="POST":
          #form is not submitted 
         assessment_id1 = request.GET.get("id")
-        print(assessment_id1)
         items = Question.objects.all().filter(assessment_id=assessment_id1)
+        students = Student.objects.get(admin_id = request.user.id)
         itemList = []
-        for item in items:
-            result = Submission.objects.all().filter(question_id=item.id,student_id=request.user.id,isSubmitted=1)
-    
+        for item in items: 
+            
+            result = Submission.objects.all().filter(question_id=item.id,student_id=students.id,isSubmitted=1)
             if(len(result) > 0):
                 item = ViewQuestionStatus(item,True)
+                marks = Marks.objects.get(student_id=students.id,questionID=item.id)
+                item.setMarks(marks.obtainedMarks)
                 itemList.append(item)
             else:
                 item = ViewQuestionStatus(item,False)
                 itemList.append(item)
-        print(itemList[0].flag)
                 
         return(render(request,'Application/viewAssessmentStd.html', {"items":itemList, "assessment_id":assessment_id1}))
     else:

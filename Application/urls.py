@@ -40,6 +40,6 @@ urlpatterns = [
     path('response/',views.getResponse, name='response'),
     path('submitcode/',studentView.submitCode, name='submit-code'),
     path('viewResult/<int:id>/',teacherView.viewResult, name='submit-code'),
-    path('viewResultStd/<int:id>/',studentView.viewResultStd, name='submit-code'),
+    # path('viewResultStd/',studentView.viewResultStd, name='submit-code'),
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

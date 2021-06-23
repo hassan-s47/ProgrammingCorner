@@ -209,6 +209,7 @@ def editAssessment(request, id):
 
 def viewClass(request, id):
     now = datetime.now()
+    total_assessment = Assessment.objects.all().filter(course_id= id)
     assessments = Assessment.objects.all().filter(
         course_id=id, due_date__gte=datetime.now())
     assessments_pa = Assessment.objects.all().filter(
@@ -217,7 +218,7 @@ def viewClass(request, id):
     students_obj = student_Class.objects.all().filter(class_id=id)
     no_of_student = len(students_obj)
     lab_obj = LabRoom.objects.get(id=id)
-    return (render(request, 'Application/course.html', {"assessments_count": assessments_count, "assessments_up": assessments, "count": no_of_student, "assessments_pa": assessments_pa, "labdetail": lab_obj, "students": students_obj}))
+    return (render(request, 'Application/course.html', {"total_assessment":total_assessment,"assessments_count": assessments_count, "assessments_up": assessments, "count": no_of_student, "assessments_pa": assessments_pa, "labdetail": lab_obj, "students": students_obj}))
 
 
 def viewAssessment(request):
@@ -253,10 +254,32 @@ def deleteAssessment(request, id):
     assessment.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+class Result:
+    def __init__(self,name,marklist,marks):
+        self.name = name
+        self.marklist = marklist
+        self.totalmarks = marks
 
-def viewResult(request):
-    marks = Marks.objects.all().filter()
-    if request.method != "POST":
-        return (render(request, 'Application/viewResult.html', {"Marks": marks}))
-    else:
-        return redirect('/dashboard/')
+
+def viewResult(request,id):
+    assessment = Assessment.objects.get(pk=id) #get the assessment
+    course = LabRoom.objects.get(id=assessment.course_id) #get the course
+    students = student_Class.objects.all().filter(class_id = course.id) #get the students
+    questions = Question.objects.all().filter(assessment_id=assessment.id) #get the questions
+    totalMarks = 0
+    for question in questions:
+        totalMarks += question.weightage
+    resultList = []
+    for student in students:
+        studentMarks = 0
+        marklist = []
+        for question in questions:
+            marks = Marks.objects.get(questionID=question.id, student_id=student.id) #get the marks4
+            marklist.append(marks.obtainedMarks)
+            studentMarks += marks.obtainedMarks
+        studentInfo = Student.objects.get(id=student.id)
+        resultList.append(Result(studentInfo.rollNo,marklist,studentMarks))
+    
+    
+    return(render(request, 'Application/viewResult.html', {"totalMarks": totalMarks, "resultList": resultList,"questionList":questions}))
+

@@ -20,29 +20,31 @@ Course Details
 					</div>
 					<div id="testCasePush" class="col-md-12">
 						<h3>Result</h3>
+						<h4>Total Marks: {{totalMarks}}</h4>
 						<table class="table table-bordered" id="testCase" name="testcase">
 							<thead>
 								<tr>
-								
 								  <th scope="col">Student</th>
-								  <th scope="col">Question ID</th>
-									<th scope="col">Obtained Marks</th>
+								  {% for item in questionList %}
+									<th scope="col">Q{{item.id}} [{{item.weightage}}]</th>
+								  {% endfor %}
+								  <th scope="col">Obtained Marks</th>
 								</tr>
 							  </thead>
 							<tbody>
-								{% for item in marks %}
+								{% for item in resultList %}
 								<tr>
-								  
-									<td class="Student" >{{item.student}}</td>
-									<td class="Question ID">{{item.questionID}}</td>
-									<td class="Obtained Marks">{{item.obtainedMarks}}</td>
+									<td class="Student" >{{item.name}}</td>
+									{% for mark in item.marklist %}
+										<td class="Obtained Marks">{{mark}}</td>
+									{% endfor %}
+									<td class="Obtained Marks">{{item.totalmarks}}</td>
 								</tr>
 								{% endfor%}
 							</tbody>
 						</table>
 						<center>
 							{% csrf_token %}
-							<button id="addQuestionToList" class="btn ed_btn btn-success">Done<i class="fa fa-save"></i> </button>
 						</center>
 					</div>
 
