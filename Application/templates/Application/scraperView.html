@@ -177,7 +177,7 @@ function addTestCase(){
         var postData = [];
 
         var inputTestcase, outputTestcase;
-        $("table tbody tr").each(function(index) {
+        $("#testCase tbody tr").each(function(index) {
             inputTestcase = $(this).find('.Input').text();
             outputTestcase = $(this).find('.Output').text();
             if(inputTestcase == null || outputTestcase == null){

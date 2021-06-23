@@ -51,23 +51,34 @@ def StudentDashboardPage(request):
     return(render(request, 'Application/studentDashboard.html',context))
 def JoinClass(request):
     if request.method=="POST":
-        class_obj=None
+        
         classCode=request.POST.get("classCode")
         student_id=request.POST.get("student_id")
         try:
-            std=Student()
-            result=std.joinLabRoom(student_id,classCode)
-            if result==True:
-                messages.success(request, 'Class Joined Successfully')
-                return HttpResponseRedirect(reverse("Studentdashboard"))
-            else:
-                messages.info(request, 'Class Code is Incorrect')
-                return HttpResponseRedirect(reverse("Studentdashboard"))
+
+           labobj=LabRoom.objects.get(classCode=classCode)
         except:
             messages.info(request, 'Class Code is Incorrect')
             return HttpResponseRedirect(reverse("Studentdashboard"))
-    
-  
+        class_obj=student_Class.objects.all().filter(class_id=labobj.id,student_id=student_id)
+        print(class_obj)
+        if  len(class_obj)==0:
+            try:
+                std=Student()
+                result=std.joinLabRoom(student_id,classCode)
+                if result==True:
+                    messages.success(request, 'Class Joined Successfully')
+                    return HttpResponseRedirect(reverse("Studentdashboard"))
+                else:
+                    messages.info(request, 'Class Code is Incorrect')
+                    return HttpResponseRedirect(reverse("Studentdashboard"))
+            except:
+                messages.info(request, 'Class Code is Incorrect')
+                return HttpResponseRedirect(reverse("Studentdashboard"))
+        else:
+            messages.info(request, 'Labroom Already Joined')
+            return HttpResponseRedirect(reverse("Studentdashboard"))
+
     else:
         return HttpResponseRedirect(reverse("Studentdashboard"))
 def ChngeProfileView(request):
@@ -183,3 +194,10 @@ def runTestCases(code,questionID):
             marksGained=marksGained+1
 
     return marksGained,len(testCasesList)
+
+def viewResultStd(request):
+    marks = Marks.objects.all().filter(student = request.user)
+    if request.method != "POST":
+        return (render(request, 'Application/viewResultStd.html', {"Marks": marks}))
+    else:
+        return redirect('/dashboard/')
