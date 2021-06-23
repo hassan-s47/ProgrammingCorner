@@ -145,11 +145,12 @@ Course Details
 													
 													<div class="ed_course_event">
 								
-														<h5><b><a href="/addQuestion?id={{item.id}}">{{item.name}}</a> </b><span><a href="{% url 'edit_assessment' item.id %}" class="muted pull-right">Edit</a></span><span><a href="{% url 'edit_assessment' item.id %}" class="muted pull-right" style="padding-right:5px;">Delete</a></span></h5>
+														<h5><b><a href="/addQuestion?id={{item.id}}">{{item.name}}</a> </b><span><a href="{% url 'edit_assessment' item.id %}" class="muted pull-right">Edit</a></span><span><a href="{% url 'edit_assessment' item.id %}" class="muted pull-right" style="padding-right:5px;">Delete</a></span><span><a href="{% url 'viewResult' item.id %}" class="muted pull-right" style="padding-right:5px;">View Result</a></span></h5>
 															
 														<p><span>Start Date :-</span> {{item.start_date}}</p>
 														<p><span>Due on :-</span> {{item.due_date}}</p>
 														<p><span>Description:-</span>{{item.description}}</p>
+														
 													</div>
 														
 													
